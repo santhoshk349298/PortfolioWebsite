@@ -1,0 +1,3 @@
+white background
+basic style
+contacts and interactive portfolio p5 js

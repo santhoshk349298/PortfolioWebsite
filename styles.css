@@ -54,7 +54,7 @@ a:hover {
 #header {
     height: var(--headerHeight);
     background-color: white;
-    background-image: url("honeycomb.png");
+    background-image: url("Images/honeycomb.png");
     background-repeat: repeat-x;
     background-size: 150px var(--headerHeight);
     text-align: center;

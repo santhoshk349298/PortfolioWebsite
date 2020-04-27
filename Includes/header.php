@@ -1,7 +1,7 @@
 <div id="header">
     <!-- The logo and menu items -->
     <div id="menuCenter">
-        <a href="index.php"><img src="Logo.png" alt="Logo" id="logo"></a>
+        <a href="index.php"><img src="Images/Logo.png" alt="Logo" id="logo"></a>
 
         <ul>
             <li><a class="menu" href="section1.php">SECTION 1</a></li>

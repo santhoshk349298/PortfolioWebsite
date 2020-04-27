@@ -9,11 +9,11 @@
 </head>
 
 <body>
-    <?php include 'header.php';?>
+    <?php include 'Includes/header.php';?>
     <div id="mainFrame">
 
     </div>
-    <?php include 'footer.php';?>
+    <?php include 'Includes/footer.php';?>
 </body>
 
 </html> 

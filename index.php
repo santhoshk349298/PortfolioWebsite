@@ -8,21 +8,21 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="libraries/p5.js"></script>
-    <script src="libraries/p5.sound.js"></script>
-    <script src="libraries/p5.sound.min.js"></script>
+    <script src="P5JS_libraries/p5.js"></script>
+    <script src="P5JS_libraries/p5.sound.js"></script>
+    <script src="P5JS_libraries/p5.sound.min.js"></script>
 
-    <script src="sketch.js"></script>
+    <script src="Sketches/testSketch.js"></script>
 
     <title>Portfolio</title>
 </head>
 
 <body>
-    <?php include 'header.php';?>
+    <?php include 'Includes/header.php';?>
     <div id="mainFrame">
 
     </div>
-    <?php include 'footer.php';?>
+    <?php include 'Includes/footer.php';?>
 </body>
 
 </html> 

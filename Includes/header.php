@@ -5,8 +5,8 @@
 
         <ul>
             <li><a class="menu" href="section1.php">SECTION 1</a></li>
-            <li><a class="menu" href="about.asp">SECTION 2</a></li>
-            <li><a class="menu" href="contact.asp">ABOUT</a></li>
+            <li><a class="menu" href="about.php">SECTION 2</a></li>
+            <li><a class="menu" href="about.php">ABOUT</a></li>
             <li><a class="menu" href="contact.asp">CONTACT</a></li>
         </ul> 
 

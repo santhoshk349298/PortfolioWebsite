@@ -4,8 +4,8 @@
 <head>
     <?php include 'Includes/headInfo.php';?>
 
-    <script src="Sketches/emptySketch.js"></script>
-    <title>Home</title>
+    <script src="Sketches/About/about.js"></script>
+    <title>About</title>
 </head>
 
 <body>

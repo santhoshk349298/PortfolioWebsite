@@ -1,0 +1,34 @@
+#controls {
+    position: absolute;
+    display: table;
+    /*text-align: center;*/
+    width: 350px;
+    height: 80px;
+    z-index: 5;
+    float: right;
+    margin-top: 5%;
+    margin-right: 15%;
+    font-weight: 700;
+    font-size: large;
+    background-color: rgba(230, 230, 230, 1);
+    padding-left: 20px;
+    border-radius: 5px 5px 15px 15px;
+    border: 2px solid rgb(41, 41, 41);
+    border-top: 20px solid rgba(41, 41, 41);
+    cursor: grabbing;
+}
+
+#sliders {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#buttonBox {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.sliderBox {
+    margin-top: 10px;
+    width: 100%;
+}

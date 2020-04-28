@@ -26,6 +26,11 @@ function defaultSetup() {
   aspectRatioTop = 16;
   aspectRatioBottom = 9;
   cnv = createCanvas(10, 10);
+
+  // Window setup
+  ctrlWindow = document.getElementById("controls");
+  windowBounds = ctrlWindow.getBoundingClientRect();
+
   windowResized();
 
   // Colors
@@ -64,9 +69,8 @@ function windowResized(){
   var x = (windowWidth - canvW)/2;
   cnv.position(x, headerH+10);
 
-  if(typeof chars != 'undefined'){
-    //drawLettersRandom(chars);
-  }
+  // Update window bounds
+  windowBounds = ctrlWindow.getBoundingClientRect();
 }
 
 function debugOutline() {
@@ -92,10 +96,24 @@ function tooSmallError(){
 
 var chars;
 var charObjs;
-var testObj;
+var goBtn;
+var frictionSlider;
+var gravitySlider;
+
+var frictionVal;
+var gVal;
+
+var ranOnce = false;
+
+// Moving window
+var ctrlWindow; // The window div element
+var windowBounds; // The bounds of the window frame
+var rollover = false; // Is the window being dragged?
+var dragging = false; // Is the mouse over the window?
+var offsetX, offsetY; // Mouseclick offset
 
 class CharObj {
-  constructor(char, x, y, velX, velY, pntX, pntY){
+  constructor(char, x, y, velX, velY, pntX, pntY, col){
     this.char = char;
     this.x = x;
     this.y = y;
@@ -103,6 +121,7 @@ class CharObj {
     this.velY = velY;
     this.pntX = pntX;
     this.pntY = pntY;
+    this.col = col;
   }
 
   move() {
@@ -111,7 +130,7 @@ class CharObj {
     let yDist = this.y - this.pntY;
     let dist = createVector(xDist, yDist);
 
-    dist = dist.mult((1-dist.mag())*0.15);
+    dist = dist.mult((1-dist.mag())*gVal);
 
     // Subtracts that distance from velocity
     this.velX -= dist.x;
@@ -129,13 +148,44 @@ class CharObj {
     this.y += this.velY;
 
     // Slow velocity each frame (Friction)
-    this.velX = this.velX*0.9;
-    this.velY = this.velY*0.9;
+    this.velX = this.velX*frictionVal;
+    this.velY = this.velY*frictionVal;
   }
 
   display() {
     text(this.char, this.x*width, this.y*height);
   }
+
+  getCol() {
+    return this.col;
+  }
+}
+
+function mousePressed() {
+  // Did I click on the rectangle?
+  if (
+      mouseX > windowBounds.left-cnv.position().x 
+   && mouseX < windowBounds.right-cnv.position().x
+   && mouseY > windowBounds.top-cnv.position().y
+   && mouseY < windowBounds.bottom-cnv.position().y-100) {
+    dragging = true;
+    // Update window bounds
+    windowBounds = ctrlWindow.getBoundingClientRect();
+    // If so, keep track of relative location of click to corner of rectangle
+    offsetX = windowBounds.left-mouseX;
+    offsetY = windowBounds.left-mouseY;
+  }
+}
+
+function mouseReleased() {
+  // Update window bounds
+  windowBounds = ctrlWindow.getBoundingClientRect();
+  // Quit dragging
+  dragging = false;
+}
+
+function keyPressed() {
+  console.log(dragging);
 }
 
 function setup() {
@@ -146,61 +196,124 @@ function setup() {
   chars = split(msg, "");
   textFont('Roboto');
   textStyle(BOLD);
-  //drawLettersRandom(chars);
+
+  frictionVal = 0.9;
+  gVal = 0.15;
+
+  // Setup controls
+  if (!ranOnce) {
+    frictionSlider = createSlider(0, 100, 15);
+    frictionSlider.parent("box1");
+
+    gravitySlider = createSlider(0, 100, 15);
+    gravitySlider.parent("box2");
+
+    goBtn = createButton("");
+    goBtn.id("playButton");
+    goBtn.parent("buttonBox");
+    goBtn.mousePressed(setup);
+  }
 
   stroke(0);
   strokeWeight(0);
-  textSize(20);
   textAlign(CENTER);
 
   // Create all the char objects
+  var vertWidth = 0;
+  let startPnt = 0.1;
   charObjs = [];
   chars.forEach(function(char, i){
+    // Set vertical height depending on char number
+    let vertHeight = 0;
+    if (i <= 3){
+      vertHeight = 0.15;
+    } else if (i > 3 && i <= 14){
+      vertHeight = 0.30;
+    } else if (i > 14 && i <= 39){
+      vertHeight = 0.45;
+    } else if (i > 39 && i <= 63){
+      vertHeight = 0.60;
+    }else {
+      vertHeight = 0.75;
+    }
+
+    // Make each line start at same point
+    if (i == 0){
+      vertWidth = startPnt;
+    } else if (i == 4){
+      vertWidth = startPnt;
+    } else if (i == 15) {
+      vertWidth = startPnt;
+    } else if (i == 40) {
+      vertWidth = startPnt;
+    } else if (i == 64) {
+      vertWidth = startPnt;
+    } else {
+      // Spacing between letters
+      vertWidth += 0.036;
+    }
+
+      // Random color
+      let col;
+      var x = floor(random(1,4));
+      if (x == 1){
+        col = brightAccent;
+      }else if (x == 2){
+        col = redCol;
+      }else if (x == 3){
+        col = darkAccent;
+      }
+
     charObjs.push(
       new CharObj(char, 
       random(),
       random(), 
       random(0,0.1), 
       random(0,0.1), 
-      (((i+1)*0.8)/chars.length)+0.1, 
-      abs(sin(i))
+      vertWidth, 
+      vertHeight,
+      col
       ));
   });
+
+  ranOnce = true;
 }
 
 function draw() {
   if (tooSmall) {
     tooSmallError();
   } else {
-    background(white); 
+    background(255, 255, 255); 
+    textSize(height*0.1);
 
-    fill(darkAccent);
+    // Is mouse over object
+    if (
+      mouseX > windowBounds.left-cnv.position().x 
+      && mouseX < windowBounds.right-cnv.position().x
+      && mouseY > windowBounds.top-cnv.position().y
+      && mouseY < windowBounds.bottom-cnv.position().y) {
+      rollover = true;
+      ctrlWindow.style.borderTop = "20px solid rgba(30, 30, 30)";
+    } else {
+      rollover = false;
+      ctrlWindow.style.borderTop = "20px solid rgba(41, 41, 41)";
+    }
+
+    // Adjust location if being dragged
+    if (dragging) {
+      ctrlWindow.style.left = mouseX + offsetX + "px";
+      ctrlWindow.style.top = mouseY + offsetY + "px";
+    }
+
+    gVal = gravitySlider.value()/100;
+    frictionVal = 1-(frictionSlider.value()/100);
+
     charObjs.forEach(function(char, i){
+      fill(char.getCol());
       char.move();
       char.display();
     });
 
   }
-}
-
-function drawLettersRandom(chars){
-  clear();
-
-  stroke(0);
-  strokeWeight(0);
-  textSize(40);
-  textAlign(CENTER);
-  chars.forEach(function(char, i){
-    var x = floor(random(1,4));
-    if (x == 1){
-      fill(brightAccent);
-    }else if (x == 2){
-      fill(redCol);
-    }else if (x == 3){
-      fill(darkAccent);
-    }
-
-    text(char, random(0,width), random(0,height));
-  });
 }
 

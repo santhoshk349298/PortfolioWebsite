@@ -6,7 +6,7 @@
         <ul>
             <li><a class="menu" onclick="showProjMenu()" href="#">PROJECTS</a></li>
             <li><a class="menu" href="about.php">ABOUT</a></li>
-            <li><a class="menu" href="contact.asp">CONTACT</a></li>
+            <li><a class="menu" href="contact.php">CONTACT</a></li>
         </ul> 
 
     </div>

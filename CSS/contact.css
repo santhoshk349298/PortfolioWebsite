@@ -1,0 +1,52 @@
+#centerDiv {
+    padding: 50px;
+    height: 500px;
+    width: 600px;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    top: 20%;
+    left: 0;
+}
+
+#centerDiv tr{
+    padding-bottom: 20px;
+    font-size: x-large;
+}
+
+.txtCol {
+    padding-left: 20px;
+
+    /* No select for text by default */
+    -webkit-touch-callout: text; /* iOS Safari */
+    -webkit-user-select: text; /* Safari */
+        -khtml-user-select: text; /* Konqueror HTML */
+        -moz-user-select: text; /* Old versions of Firefox */
+        -ms-user-select: text; /* Internet Explorer/Edge */
+            user-select: text;
+}
+
+.imgCol {
+    width: 100px;
+}
+
+#linkedInImg {
+    background-image: url("Images/linkedInLogo.png");
+    background-position: center;
+    background-size: 120px 120px;
+    background-repeat: no-repeat;
+}
+
+#emailImg {
+    background-image: url("Images/Mail.png");
+    background-position: center;
+    background-size: 100px 100px;
+    background-repeat: no-repeat;
+}
+
+#githubImg {
+    background-image: url("Images/GitHubLogo.png");
+    background-position: center;
+    background-size: 135px 135px;
+    background-repeat: no-repeat;
+}

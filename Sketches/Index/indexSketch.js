@@ -199,14 +199,14 @@ function setup() {
   textStyle(BOLD);
 
   frictionVal = 0.9;
-  gVal = 0.15;
+  gVal = 0.4;
 
   // Setup controls
   if (!ranOnce) {
     frictionSlider = createSlider(0, 100, 15);
     frictionSlider.parent("box1");
 
-    gravitySlider = createSlider(0, 100, 15);
+    gravitySlider = createSlider(0, 100, 40);
     gravitySlider.parent("box2");
 
     goBtn = createButton("");

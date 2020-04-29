@@ -13,7 +13,20 @@
 </div>
 
 <div id="projectsMenu">
-    <button id="projMenuExit"onclick="hideProjMenu()"></button>
+    <div id="projCenterBox">
+        <button id="projMenuExit"onclick="hideProjMenu()">&#10799;</button>
+        <table id="projMenuTable">
+            <tr><td>MANDELBROT GENERATOR</td></tr>
+            <tr><td>IMAGE EDITOR</td></tr>
+            <tr><td>MUSIC MAKER</td></tr>
+            <tr><td>GRAVITY SIMULATION</td></tr>
+            <tr><td>MACHINE LEARNING</td></tr>
+            <tr><td>PACMAN GAME</td></tr>
+            <tr><td>MATH VISUALIZATION</td></tr>
+        </table>
+        <div id="projMenuContent"></div>
+        <div id="honeycombProjMenu"></div>
+    </div>
 </div>
 
 <script>

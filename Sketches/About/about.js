@@ -28,8 +28,10 @@ function defaultSetup() {
   cnv = createCanvas(10, 10);
 
   // Window setup
-  ctrlWindow = document.getElementById("controls");
+  ctrlWindow = document.getElementById("controlWindow");
   windowBounds = ctrlWindow.getBoundingClientRect();
+  grabber = document.getElementById("grabber");
+  grabberBounds = grabber.getBoundingClientRect();
 
   windowResized();
 
@@ -71,6 +73,7 @@ function windowResized(){
 
   // Update window bounds
   windowBounds = ctrlWindow.getBoundingClientRect();
+  grabberBounds = grabber.getBoundingClientRect();
 }
 
 function debugOutline() {
@@ -90,6 +93,9 @@ function tooSmallError(){
   text("Window too small!", 0, -20);
   fill(black);
   text("Please increase window size.", 0, 20);
+
+  // Make window invisible
+  ctrlWindow.style.display = "none";
 }
 
 /*---------------START----------------*/
@@ -108,9 +114,12 @@ var ranOnce = false;
 // Moving window
 var ctrlWindow; // The window div element
 var windowBounds; // The bounds of the window frame
-var rollover = false; // Is the window being dragged?
-var dragging = false; // Is the mouse over the window?
+var grabber // The window grabber (at the top)
+var grabberBounds // The bounds of the grabber
+var dragging = false; // Is the window being dragged?
 var offsetX, offsetY; // Mouseclick offset
+var ctrlWindowWidth = 370; // The width (in px) of the window
+var ctrlWindowHeight = 170; // The height (in px) of the window
 
 class CharObj {
   constructor(char, x, y, velX, velY, pntX, pntY, col){
@@ -164,28 +173,20 @@ class CharObj {
 function mousePressed() {
   // Did I click on the rectangle?
   if (
-      mouseX > windowBounds.left-cnv.position().x 
-   && mouseX < windowBounds.right-cnv.position().x
-   && mouseY > windowBounds.top-cnv.position().y
-   && mouseY < windowBounds.bottom-cnv.position().y-100) {
+      mouseX > grabberBounds.left-cnv.position().x 
+   && mouseX < grabberBounds.right-cnv.position().x
+   && mouseY > grabberBounds.top-cnv.position().y
+   && mouseY < grabberBounds.bottom-cnv.position().y) {
     dragging = true;
-    // Update window bounds
-    windowBounds = ctrlWindow.getBoundingClientRect();
     // If so, keep track of relative location of click to corner of rectangle
     offsetX = windowBounds.left-mouseX;
-    offsetY = windowBounds.left-mouseY;
+    offsetY = windowBounds.top-mouseY;
   }
 }
 
 function mouseReleased() {
-  // Update window bounds
-  windowBounds = ctrlWindow.getBoundingClientRect();
   // Quit dragging
   dragging = false;
-}
-
-function keyPressed() {
-  console.log(dragging);
 }
 
 function setup() {
@@ -286,23 +287,52 @@ function draw() {
     background(255, 255, 255); 
     textSize(height*0.1);
 
+    // Update window bounds
+    windowBounds = ctrlWindow.getBoundingClientRect();
+    grabberBounds = grabber.getBoundingClientRect();
+
+    // Make sure window is visible
+    ctrlWindow.style.display = "block";
+
     // Is mouse over object
     if (
       mouseX > windowBounds.left-cnv.position().x 
       && mouseX < windowBounds.right-cnv.position().x
       && mouseY > windowBounds.top-cnv.position().y
       && mouseY < windowBounds.bottom-cnv.position().y) {
-      rollover = true;
-      ctrlWindow.style.borderTop = "20px solid rgba(30, 30, 30)";
+      ctrlWindow.style.opacity = "1";
+      ctrlWindow.style.filter = "drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.7)";
     } else {
-      rollover = false;
-      ctrlWindow.style.borderTop = "20px solid rgba(41, 41, 41)";
+      ctrlWindow.style.opacity = "0.5";
+      ctrlWindow.style.filter = "blur(1px) ";
     }
 
     // Adjust location if being dragged
     if (dragging) {
-      ctrlWindow.style.left = mouseX + offsetX + "px";
-      ctrlWindow.style.top = mouseY + offsetY + "px";
+      // Set bounds to screen width and height
+      if ((mouseX + offsetX) < 0){
+        ctrlWindow.style.left = "0px";
+      } else if (mouseX + offsetX + ctrlWindowWidth > windowWidth) {
+        ctrlWindow.style.left = (windowWidth - ctrlWindowWidth) + "px";
+      } else {
+        ctrlWindow.style.left = mouseX + offsetX + "px";
+      }
+
+      if (mouseY + offsetY < headerH){
+        ctrlWindow.style.top = headerH + "px";
+      } else if (mouseY + offsetY + ctrlWindowHeight > windowHeight - footerH){
+        ctrlWindow.style.top = (windowHeight - ctrlWindowHeight - footerH) + "px";
+      } else {
+        ctrlWindow.style.top = mouseY + offsetY + "px";
+      }
+    }
+
+    // Reset window if out of bounds
+    if(parseInt(ctrlWindow.style.left, 10) > windowWidth - ctrlWindowWidth){
+      ctrlWindow.style.left = windowWidth - ctrlWindowWidth + "px";
+    }
+    if(parseInt(ctrlWindow.style.top, 10) > windowHeight - ctrlWindowHeight - footerH){
+      ctrlWindow.style.top = windowHeight - ctrlWindowHeight - footerH + "px";
     }
 
     gVal = gravitySlider.value()/100;

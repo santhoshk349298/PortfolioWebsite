@@ -13,6 +13,8 @@ body {
     background-color: white;
     font-family: 'Roboto', sans-serif;
     margin: 0;
+    overflow: hidden;
+
 
     /* No select for text by default */
     -webkit-touch-callout: none; /* iOS Safari */
@@ -24,32 +26,41 @@ body {
 }
 
 ul {
+    display: table-row;
+    table-layout: fixed;
     font-weight: 700;
     font-size: 15px;
     list-style-type: none;
     margin: 0;
     padding: 0;
     height: 60px;
-    width: 80%;
+    width: 50%;
     min-width: 500px;
     display: table;
     margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.25);
+    border-radius: 25px;
 }
 
 li {
     display: table-cell;
     vertical-align: middle;
+    text-align: center;
 }
 
 a {color:black;}
 
 a.menu:link {
+    display: block;
+    width: 70%;
+    margin: 0 auto;
     padding: 8px;
     color: black;
     font-style: normal;
     text-decoration: none;
     background-color: white;
     border: 2px solid black;
+    border-radius: 1px;
 }
 
 a:hover {
@@ -76,16 +87,18 @@ a:hover {
     filter: drop-shadow(-5px 5px 0px var(--lightAccent));
     cursor: pointer;
     transition: all .1s ease-in-out; 
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 #header {
+    position: relative;
     height: var(--headerHeight);
     background-color: white;
     background-image: url("Images/honeycomb.png");
     background-repeat: repeat-x;
     background-size: 150px var(--headerHeight);
     text-align: center;
+    z-index: 10;
 }
 
 #menuCenter {
@@ -94,11 +107,18 @@ a:hover {
     max-width: 850px;
     height: 100%;
     display: inline-block;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 125px;
 }
 
 #logo {
     height: 50px;
     margin-top: 10px;
+}
+
+#logo:hover {
+    transition: all .1s ease-in-out; 
+    transform: scale(1.1);
 }
 
 #mainFrame {
@@ -115,6 +135,10 @@ a:hover {
     position: absolute;
     text-align: center;
     bottom: 0;
+    background-image: url("Images/honeycomb.png");
+    background-repeat: repeat-x;
+    background-size: 150px var(--headerHeight);
+    z-index: 10;
 }
 
 #copyright {
@@ -122,6 +146,7 @@ a:hover {
     top: 5px;
     color: var(--lightGrey);
     font-size: small;
+    background-color: white;
 }
 
 #copyright:hover {
@@ -251,7 +276,41 @@ input[type=range]:focus::-ms-fill-upper {
 
 button::-moz-focus-inner {
     border: 0;
-  }
+}
+
+#projectsMenu {
+    display: none;
+    background-color:  white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 100;
+}
+
+#projMenuExit {
+    position: absolute;
+    right: 2%;
+    top: 2%;
+    border-radius: 100px;
+    border: 2px solid black;
+    height: 100px;
+    width: 100px;
+    background-color: white;
+    background-image: url("Images/playButton.png");
+    background-size: 60px 60px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#projMenuExit:hover {
+    filter: drop-shadow(-5px 5px 0px var(--lightAccent));
+    cursor: pointer;
+    transition: all .1s ease-in-out; 
+    transform: scale(1.05);
+}
+
   
   
 

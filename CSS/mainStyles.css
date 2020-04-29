@@ -126,7 +126,7 @@ a:hover {
 
 #logo:hover {
     transition: all .1s ease-in-out; 
-    transform: scale(1.1);
+    transform: scale(1.1) rotate(-2deg);
 }
 
 #mainFrame {

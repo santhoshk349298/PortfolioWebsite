@@ -79,8 +79,8 @@
             "which leads to the emergence of beautiful infinitely detailed patterns." +
             "<br><br><b>Instructions:</b><br>" +
             "Scroll to zoom and grab + drag to explore the Mandelbrot Set. " +
-            "The sliders allow you to change the look " +
-            "and quality of the render.";
+            "Change the render quality with the slider." +
+            "<br><br>⚠️<i>Note:</i> Higher quality rendering will slow down your browser!";
             imgName = "mandelbrot.png";
             srcVal = "Source: https://github.com/rosslh/Mandelbrot-set-explorer/blob/master/README.md";
         } else {

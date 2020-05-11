@@ -1,0 +1,21 @@
+These are some values for rWeight, gWeight, and bWeight (in mandelbrot.js) that look cool:
+
+Tropical
+r: 5
+g: 1
+b: 2
+
+Bright
+r: 3
+g: 1
+b: 5
+
+Fiery Purple
+r: 1
+g: 4
+b: 5
+
+Lagoon
+r: 4
+g: 1
+b: 2

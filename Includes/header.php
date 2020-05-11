@@ -103,4 +103,6 @@
         backImg.style.backgroundImage = "none";
         src.innerHTML = "";
     }
+
+    hideProjMenu();
 </script>

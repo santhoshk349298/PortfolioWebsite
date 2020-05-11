@@ -1,0 +1,22 @@
+#sliderBox {
+    position: relative;
+    width: 500px;
+    padding-top: 20px;
+    background-color: rgb(255, 255, 255, 0.75);
+    border-radius: 10px;
+    z-index: 10;
+    margin: 0 auto;
+}
+
+#lblBox {
+    font-size: 2.75vh;
+    font-weight: 100;
+    float: left;
+}
+
+#sliderArea {
+    margin-top: 0.35vh;
+    vertical-align: middle;
+    float: right;
+    width: 78%;
+}

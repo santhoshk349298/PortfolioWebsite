@@ -9,7 +9,7 @@ var aspectRatioBottom
 var black;
 var white;
 var lightGrey;
-var red;
+var redCol;
 var darkAccent;
 var lightAccent;
 var brightAccent;
@@ -32,7 +32,7 @@ function defaultSetup() {
   black = color(0);
   white = color(255);
   lightGrey = color(165);
-  red = color('#d62828');
+  redCol = color('#d62828');
   darkAccent = color('#003049');
   lightAccent = color('#fcbf49');
   brightAccent = color('#f77f00');

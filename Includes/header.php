@@ -20,15 +20,14 @@
             <tr onmouseover="setDesc('mandelbrot')" onmouseout="resetDesc()">
             <td><a class="noStyleLink" href="mandelbrot.php">
             <div class="projLinkBox">
-                MANDELBROT GENERATOR
+                MANDELBROT NAVIGATOR
             </div></a></td></tr>
 
-            <tr><td>IMAGE EDITOR</td></tr>
-            <tr><td>MUSIC MAKER</td></tr>
-            <tr><td>GRAVITY SIMULATION</td></tr>
-            <tr><td>MACHINE LEARNING</td></tr>
-            <tr><td>PACMAN GAME</td></tr>
-            <tr><td>MATH VISUALIZATION</td></tr>
+            <tr onmouseover="setDesc('butterflyEffect')" onmouseout="resetDesc()">
+            <td><a class="noStyleLink" href="butterflyEffect.php">
+            <div class="projLinkBox">
+                DOUBLE PENDULUMS
+            </div></a></td></tr>
         </table>
         <div id="projMenuContent">
             <div id="projMenuBackImg"></div>
@@ -60,6 +59,7 @@
     }
 
     function hideProjMenu() {
+        backImg.classList.toggle('fade');
         projMenu.style.display = "none";
     }
 
@@ -78,15 +78,25 @@
             "is a <i>fractal curve</i>, meaning it has the property of self-similarity " +
             "which leads to the emergence of beautiful infinitely detailed patterns." +
             "<br><br><b>Instructions:</b><br>" +
-            "Scroll to zoom and grab + drag to explore the Mandelbrot Set. " +
+            "<b>Scroll</b> to zoom and <b>Grab + Drag</b> to explore the Mandelbrot Set. " +
             "Change the render quality with the slider." +
             "<br><br>⚠️<i>Note:</i> Higher quality rendering will slow down your browser!";
             imgName = "mandelbrot.png";
-            srcVal = "Source: https://github.com/rosslh/Mandelbrot-set-explorer/blob/master/README.md";
+            srcVal = "";
+        } else if(page == "butterflyEffect") {
+            titleVal = "The 🦋 Effect!";
+            descVal = "The <b>Butterfly Effect</b> is when small changes in the initial conditions " +
+            "of a system result in large and chaotic changes over time. This example visualizes " +
+            "the butterfly effect using double pendulums (pendulums with two rods). The " +
+            "pendulums begin with only a small offset from one another but quickly split apart. " +
+            "<br><br><b>Instructions:</b><br>" +
+            "Adjust the parameters with the sliders. To re-run the expirement with new settings click <i>Run!</i>";
+            imgName = "ButterflyEffect.png";
+            srcVal = "";
         } else {
             titleVal = "";
             descVal = "";
-            imgName = "Logo.png";
+            imgName = "";
             srcVal = "";
         }
 
@@ -95,9 +105,13 @@
         desc.innerHTML = descVal;
         backImg.style.backgroundImage = 'url("CSS/Images/' + imgName + '")';
         src.innerHTML = srcVal;
+
+        // Fade the img in
+        backImg.classList.toggle('fade');
     }
 
     function resetDesc() {
+        backImg.classList.toggle('fade');
         title.innerHTML = "Pick a project to the left.";
         desc.innerHTML = "Hovering will show more details.";
         backImg.style.backgroundImage = "none";
@@ -105,4 +119,5 @@
     }
 
     hideProjMenu();
+    backImg.classList.toggle('fade');
 </script>

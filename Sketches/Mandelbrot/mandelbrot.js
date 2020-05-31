@@ -173,8 +173,8 @@ function setQuality() {
 }
 
 function saveImage() {
-  img.save("mandelbrot", "png");
   buttonPressed = true;
+  img.save("mandelbrot", "png");
 }
 
 function randomizeColor() {
@@ -403,6 +403,10 @@ function draw() {
     img.loadPixels();
     colorMode(RGB, 255);
 
+    //let rTot = 0;
+    //let gTot = 0;
+    //let bTot = 0;
+    //let pxNum = floor(width*sizeFactor)*floor(height*sizeFactor);
     for (let r = 0; r < floor(width*sizeFactor); r++) {
       for (let i = 0; i < floor(height*sizeFactor); i++) {
 
@@ -417,6 +421,9 @@ function draw() {
         var rCol = Math.floor(Math.sin(Math.PI * rWeight * colVal) * 255);
         var gCol = Math.floor(Math.sin(Math.PI * gWeight * colVal) * 255);
         var bCol = Math.floor(Math.sin(Math.PI * bWeight * colVal) * 255);
+        //rTot += rCol;
+        //gTot += gCol;
+        //bTot += bCol;
 
         if (colVal == 1) {
           col = color(0, 0, 0);
@@ -432,10 +439,15 @@ function draw() {
     img.updatePixels();
     image(img, -15, 0, width, height);
 
+    // Change background color
+    //let avgR = rTot/pxNum;
+    //let avgG = gTot/pxNum;
+    //let avgB = bTot/pxNum;
+    //document.body.style.backgroundColor = "rgb("+avgR+","+avgG+","+avgB+")";
+
     // Increase quality
     sizeFactor += 0.2;
 
     drawUI();
-    debugOutline();
   }
 }

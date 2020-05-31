@@ -391,6 +391,11 @@ button::-moz-focus-inner {
     background-size: cover;
     opacity: 1;
     z-index: 100;
+    transition: opacity 0.25s;
+}
+
+#projMenuBackImg.fade{
+    opacity: 0;
 }
 
 #projMenuDescriptionBox {

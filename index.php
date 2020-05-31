@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="CSS/index.css">
     <script src="Sketches/Index/indexSketch.js"></script>
-    <title>Home</title>
+    <title>Chris Venczel</title>
 </head>
 
 <body>

@@ -206,6 +206,8 @@ var m1Txt;
 var m2Txt;
 var gTxt;
 
+var needsToRun = true;
+
 function setup() {
   path = createGraphics(width, height);
   ctrlBox = document.getElementById("ctrlBox");
@@ -238,9 +240,16 @@ function drawUI() {
   runBtn.position(cnv.position().x, cnv.position().y+40);
   runBtn.class("button");
   
+  if (needsToRun) {
+    textSize(15);
+    fill(200);
+    text("⬅️ Run to see changes", 70, 65);
+  }
+
   penNumCtrl.position(cnv.position().x+width-200, cnv.position().y+40);
   penNumCtrl.style("width", "200px");
   penNumCtrl.class("slider");
+  penNumCtrl.input(setRunLabel);
 
   textSize(19);
   fill(255);
@@ -253,7 +262,12 @@ function drawUI() {
   gTxt.innerHTML = "Strength of Gravity: "+gCtrl.value;
 }
 
+function setRunLabel() {
+  needsToRun = true;
+}
+
 function remakePendulums() {
+  needsToRun = false;
   path.background('rgb(0, 0, 0)');
   pendulums = [];
   let seedPnt;
@@ -324,7 +338,7 @@ function draw() {
       
       pendulums[i].getB1().setA(pendulums[i].getB1().getA() + pendulums[i].getB1().getA_V());
       pendulums[i].getB2().setA(pendulums[i].getB2().getA() + pendulums[i].getB2().getA_V());
-  
+
       pendulums[i].show();
     }
 

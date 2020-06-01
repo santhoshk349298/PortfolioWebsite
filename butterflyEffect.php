@@ -22,10 +22,10 @@
             </tr>
             <tr>
                 <td>
-                    <input id="m1" type="range" min="1" max="6" value="3" class="slider" style="width: 80%;">
+                    <input id="m1" onchange="setRunLabel()" type="range" min="1" max="6" value="3" class="slider" style="width: 80%;">
                 </td>
                 <td>
-                    <input id="m2" type="range" min="1" max="6" value="3" class="slider" style="width: 80%;">
+                    <input id="m2" onchange="setRunLabel()" type="range" min="1" max="6" value="3" class="slider" style="width: 80%;">
                 </td>
                 <td>
                     <input id="gStrength" type="range" min="0" max="100" value="50" class="slider" style="width: 80%;">

@@ -28,6 +28,12 @@
             <div class="projLinkBox">
                 DOUBLE PENDULUMS
             </div></a></td></tr>
+
+            <tr onmouseover="setDesc('trexGame')" onmouseout="resetDesc()">
+            <td><a class="noStyleLink" href="trex.php">
+            <div class="projLinkBox">
+                TREX GAME
+            </div></a></td></tr>
         </table>
         <div id="projMenuContent">
             <div id="projMenuBackImg"></div>
@@ -92,6 +98,11 @@
             "<br><br><b>Instructions:</b><br>" +
             "Adjust the parameters with the sliders. To re-run the expirement with new settings click <i>Run!</i>";
             imgName = "ButterflyEffect.png";
+            srcVal = "";
+        } else if(page == "trexGame") {
+            titleVal = "TRex Game";
+            descVal = "";
+            imgName = "";
             srcVal = "";
         } else {
             titleVal = "";

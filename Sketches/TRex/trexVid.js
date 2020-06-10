@@ -86,63 +86,18 @@ function tooSmallError(){
 
 /*---------------START----------------*/
 
-var mobilenet;
-var img;
-var imgDir = "Sketches/ML/Images/";
-var madePrediction = false;
-var label = "";
-
-var imgName = "Banana.jpg";
-
-function modelReady() {
-  print("Model is ready!!");
-  mobilenet.predict(img, gotResults);
-}
-
-function gotResults(error, data) {
-  if (error) {
-    print("Problem Predicting: " + error);
-  } else {
-    console.log(data);
-    label = data[0].label;
-    madePrediction = true;
-  }
-}
-
-function preload() {
-  mobilenet = ml5.imageClassifier("MobileNet", modelReady);
-}
-
 function setup() {
   defaultSetup();
 
-  img = createImg(imgDir + imgName, "");
-  img.hide(); 
+  // Add setup here
 }
 
 function draw() {
   if (tooSmall) {
     tooSmallError();
   } else {
-    background(255);
-    fill(0);
-    strokeWeight(4);
-    stroke(255);
-    textSize(height/10);
-
-    push();
-    // Draw the image
-    translate(width/2, height/2);
-    imageMode(CENTER);
-    image(img, 0, 0);
-    pop();
-
-    // Show the prediction
-    if (madePrediction) {
-      text(label, (width/100), height - (height/25));
-    } else {
-      text("Loading prediction...", (width/100), height - (height/25));
-    }
+    // Add draw here
+    
     debugOutline();
   }
 }

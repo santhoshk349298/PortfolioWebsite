@@ -29,6 +29,12 @@
                 The<br>Butterfly<br>Effect
             </div></a></td></tr>
 
+            <tr onmouseover="setDesc('brownianTree')" onmouseout="resetDesc()">
+            <td><a class="noStyleLink" href="brownianTree.php">
+            <div class="projLinkBox">
+                Brownian<br>Tree<br>Generator
+            </div></a></td></tr>
+
             <tr onmouseover="setDesc('trexGame')" onmouseout="resetDesc()">
             <td><a class="noStyleLink" href="trex.php">
             <div class="projLinkBox">
@@ -99,7 +105,16 @@
             "Adjust the parameters with the sliders. To re-run the expirement with new settings click <i>Run!</i>";
             imgName = "butterflyEffect.jpg";
             srcVal = "";
-        } else if(page == "trexGame") {
+        } else if(page == "brownianTree") {
+            titleVal = "Brownian Trees!";
+            descVal = "A <b>Brownian tree</b> is an organic looking fractal created by clustering particles " +
+            "that have Brownian motion. This process is called <i>diffusion-limited aggregation</i> and is " +
+            "found in nature in everything from the creation of snowflakes to dendrites in our brains." +
+            "<br><br><b>Instructions:</b><br>" +
+            "Adjust the parameters with the sliders. To re-run the expirement with new settings click <i>Run!</i>";
+            imgName = "brownianTree.jpg";
+            srcVal = "";
+        }else if(page == "trexGame") {
             titleVal = "TRex Game";
             descVal = "";
             imgName = "";

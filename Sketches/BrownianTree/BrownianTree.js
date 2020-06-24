@@ -95,11 +95,12 @@ let uiGraphics;
 let walkerNum = 100; // Number of moving walkers
 let walkerR;
 let walkers;
+let brownianTree;
 let ring;
 let innerBound;
 let outerBound;
 let expandObject;
-let maxObjectSize = 500;
+let maxTreeSize = 500;
 let showWalkers = true;
 let showBounds = false;
 let colT;
@@ -119,7 +120,7 @@ function setup() {
 
   walkerR = width/qualitySlider.value();
   walkerNum = qualitySlider.value()*1.1;
-  maxObjectSize = qualitySlider.value()*7.5;
+  maxTreeSize = qualitySlider.value()*7.5;
 
   reset();
 }
@@ -147,6 +148,7 @@ function Walker(x, y) {
 
   this.show = function() {
     noStroke();
+    colorMode(HSB);
     rectMode(RADIUS);
     if (this.connected) {
       rect(this.x, this.y, walkerR, walkerR);
@@ -183,15 +185,16 @@ function reset() {
   expandObject = true;
   ring = width/10; // Start point of ring width
   walkers = [];
+  brownianTree = [];
   innerBound = new Bound(0,0,0,0);
   outerBound = new Bound(0,0,0,0);
 
   if (fromPoint) {
     // Generate from a point
-    walkers[0] = new Walker(width/2, height/2);
-    walkers[0].connected = true;
+    brownianTree[0] = new Walker(width/2, height/2);
+    brownianTree[0].connected = true;
   } else {
-    // Generate from line
+    // Generate from line // TODO
     let numOfStartPoints = floor(width/walkerR);
     for (let i = 0; i < numOfStartPoints; i++) {
       walkers[i] = new Walker((i+0.5)*(width/numOfStartPoints), height/2);
@@ -207,7 +210,7 @@ function draw() {
   } else {
     walkerR = width/qualitySlider.value();
     walkerNum = qualitySlider.value();
-    maxObjectSize = qualitySlider.value()*7.5;
+    maxTreeSize = qualitySlider.value()*7.5;
 
     blendMode(DARKEST);
     background(0, 100);
@@ -222,76 +225,83 @@ function draw() {
     colT+=1;
 
     // Stop adding new walkers once max size is reached
-    if (walkers.length-walkerNum >= maxObjectSize || !expandObject) {
+    if (brownianTree.length >= maxTreeSize || !expandObject) {
       expandObject = false;
       showBounds = false;
       uiGraphics.text('Done Generating', 20, 30);
     } else {
-      let genProg = (max(((walkers.length-walkerNum)/maxObjectSize)*100, 0)).toFixed(1);
+      let genProg = (max((brownianTree.length/maxTreeSize)*100, 0)).toFixed(1);
       uiGraphics.text('Generating: '+genProg+'%', 20, 30);
     }
 
     // Draw all the walkers
-    let disconnectedNum = 0;
+    for (let i = 0; i < walkers.length; i++) {
+      walkers[i].move();
+      walkers[i].show();
+
+      // Remove if object is done growing
+      if (!expandObject) {
+        walkers.splice(i, 1);
+        //i--;
+        continue;
+      }
+
+      // Remove if out of screen
+      if (walkers[i].x < outerBound.lx || walkers[i].x > outerBound.rx
+        || walkers[i].y < outerBound.ly || walkers[i].y > outerBound.ry) {
+          walkers.splice(i, 1);
+          //i--;
+          continue;
+      }
+
+      //print(i);
+      // Check if attached
+      for (let n = 0; n < brownianTree.length; n++) {
+        if (abs(walkers[i].x-brownianTree[n].x)<=2*walkerR &&
+            abs(walkers[i].y-brownianTree[n].y)<=2*walkerR) {
+            // Add to brownian tree
+            walkers[i].connected = true;
+            brownianTree.push(walkers[i]);
+            walkers.splice(i, 1);
+            break;
+        }
+      }   
+    }
+
     let left = width;
     let right = 0;
     let top = height;
     let bottom = 0;
-    for (let i = 0; i < walkers.length; i++) {
-      walkers[i].move();
-      colorMode(HSB);
+    // Draw brownian tree
+    for (let i = 0; i < brownianTree.length; i++) {
       let distFromCenter;
       if (fromPoint) {
         // Color based on distance from center
         let calcPntX = width/2;
         let calcPntY = height/2; 
-        let xPos = abs(walkers[i].x-(calcPntX)); 
-        let yPos = abs(walkers[i].y-(calcPntY)); 
+        let xPos = abs(brownianTree[i].x-(calcPntX)); 
+        let yPos = abs(brownianTree[i].y-(calcPntY)); 
         distFromCenter = sqrt(xPos*xPos + yPos*yPos); 
       } else {
         distFromCenter = abs(walkers[i].y-height/2);
       }
 
+      colorMode(HSB);
       fill((distFromCenter*0.8+colT)%360,100,100);
-      walkers[i].show();
-      if (!walkers[i].connected) {
-        disconnectedNum++;
+      brownianTree[i].show();
 
-        // Remove if object is done growing
-        if (!expandObject) {
-          walkers.splice(i, 1);
-          continue;
-        }
-
-        // Remove if out of screen
-        if (walkers[i].x < outerBound.lx || walkers[i].x > outerBound.rx
-          || walkers[i].y < outerBound.ly || walkers[i].y > outerBound.ry) {
-            walkers.splice(i, 1);
-            continue;
-        }
-
-        // Check if attached
-        for (let n = 0; n < walkers.length; n++) {
-          if (i != n && walkers[n].connected &&
-            abs(walkers[i].x-walkers[n].x)<=2*walkerR &&
-            abs(walkers[i].y-walkers[n].y)<=2*walkerR) {
-              walkers[i].connected = true;
-          }
-        }   
-      } else {
-        // Calculate bounds of connected object
-        if (walkers[i].x < left) {
-          left = walkers[i].x;
-        } 
-        if (walkers[i].x > right) {
-          right = walkers[i].x;
-        }
-        if (walkers[i].y < top) {
-          top = walkers[i].y;
-        } 
-        if (walkers[i].y > bottom) {
-          bottom = walkers[i].y;
-        }
+      // Calculate bounds of connected object
+      if (brownianTree[i].x < left) {
+        left = brownianTree[i].x;
+      } 
+      if (brownianTree[i].x > right) {
+        right = brownianTree[i].x;
+      }
+      if (brownianTree[i].y < top) {
+        top = brownianTree[i].y;
+      } 
+      if (brownianTree[i].y > bottom) {
+        bottom = brownianTree[i].y;
       }
     }
 
@@ -318,8 +328,8 @@ function draw() {
     }
 
     // Add a new walker (not in bounds of object)
-    if (disconnectedNum < walkerNum && expandObject) {
-      for (let i = 0; i < walkerNum-disconnectedNum; i++) {
+    if (walkers.length < walkerNum && expandObject) {
+      for (let i = 0; i < walkerNum-walkers.length; i++) {
         let inBounds = false;
         let newX;
         let newY;

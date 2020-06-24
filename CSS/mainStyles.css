@@ -332,7 +332,6 @@ button::-moz-focus-inner {
 }
 
 #honeycombProjMenu {
-    /*background-image: url("Images/honeycomb90DEG.png");*/
     background-size: 200px 200px;
     background-repeat: repeat-y;
     background-color: transparent;
@@ -365,7 +364,6 @@ button::-moz-focus-inner {
 
 #projMenuTable td {
     height: 100px;
-    font-weight: 300;
     border: 3px solid white;
     border-radius: 0px;
     text-align: center;
@@ -376,7 +374,6 @@ button::-moz-focus-inner {
     border: 3px solid var(--lightGrey);
     text-align: center;
     cursor: pointer;
-    font-weight: 700;
 }
 
 #projMenuBackImg {
@@ -439,6 +436,11 @@ button::-moz-focus-inner {
 .projLinkBox {
     padding: 50px 0;
     vertical-align: middle;
+    font-weight: 300;
+    font-size: large;
+    font-family: 'Rubik Mono One', sans-serif;
+    line-height: 200%;
+    letter-spacing: 0.2rem;
 }
 
 .noStyleLink {

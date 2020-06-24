@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <?php include 'Includes/headInfo.php';?>
 
     <script src="Sketches/ButterflyEffect/pendulums.js"></script>
     <link rel="stylesheet" href="CSS/butterfly.css">
-    <title>Butterfly Effect</title>
+    <title>Christopher Venczel | The Butterfly Effect</title>
+    <meta name="description" 
+    content="Visualize the chaos of the butterfly effect
+     with this colorful interactive double pendulum simulation.">
 </head>
 
 <body>

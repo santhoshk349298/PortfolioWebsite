@@ -312,7 +312,7 @@ function draw() {
     path.push();
     path.translate(centerPnt.x, centerPnt.y);
     path.blendMode(DARKEST);
-    path.background('rgba(0, 0, 0, 0.01)');
+    path.background(0, 10);
     path.blendMode(BLEND);
 
     let friction = 0.9;

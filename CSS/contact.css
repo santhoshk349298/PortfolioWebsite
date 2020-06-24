@@ -31,21 +31,21 @@
 }
 
 #linkedInImg {
-    background-image: url("Images/linkedInLogo.png");
+    background-image: url("Images/Contact/linkedInLogo.png");
     background-position: center;
     background-size: 120px 120px;
     background-repeat: no-repeat;
 }
 
 #emailImg {
-    background-image: url("Images/Mail.png");
+    background-image: url("Images/Contact/Mail.png");
     background-position: center;
     background-size: 100px 100px;
     background-repeat: no-repeat;
 }
 
 #githubImg {
-    background-image: url("Images/GitHubLogo.png");
+    background-image: url("Images/Contact/GitHubLogo.png");
     background-position: center;
     background-size: 135px 135px;
     background-repeat: no-repeat;

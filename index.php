@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <?php include 'Includes/headInfo.php';?>
 
     <link rel="stylesheet" href="CSS/index.css">
     <script src="Sketches/Index/indexSketch.js"></script>
-    <title>Chris Venczel</title>
+    <title>Christopher Venczel | Interactive Portfolio</title>
+    <meta name="description" 
+    content="This website is an interactive portfolio of Javascript 
+    projects about music, math, physics, AI and whatever else I find interesting.">
 </head>
 
 <body>

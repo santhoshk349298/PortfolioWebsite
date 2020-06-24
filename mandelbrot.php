@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <?php include 'Includes/headInfo.php';?>
 
     <link rel="stylesheet" href="CSS/mandelbrot.css">
     <script src="Sketches/Mandelbrot/mandelbrot.js"></script>
-    <title>Mandelbrot Set</title>
+    <title>Christopher Venczel | Mandelbrot Explorer</title>
+    <meta name="description" 
+    content="Explore and save images of the famous Mandelbrot set fractal. 
+    Click and drag to move and scroll to zoom in and take a closer look.">
 </head>
 
 <body>

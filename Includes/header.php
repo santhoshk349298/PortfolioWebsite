@@ -20,19 +20,19 @@
             <tr onmouseover="setDesc('mandelbrot')" onmouseout="resetDesc()">
             <td><a class="noStyleLink" href="mandelbrot.php">
             <div class="projLinkBox">
-                MANDELBROT NAVIGATOR
+                Mandelbrot<br>Explorer
             </div></a></td></tr>
 
             <tr onmouseover="setDesc('butterflyEffect')" onmouseout="resetDesc()">
             <td><a class="noStyleLink" href="butterflyEffect.php">
             <div class="projLinkBox">
-                DOUBLE PENDULUMS
+                The<br>Butterfly<br>Effect
             </div></a></td></tr>
 
             <tr onmouseover="setDesc('trexGame')" onmouseout="resetDesc()">
             <td><a class="noStyleLink" href="trex.php">
             <div class="projLinkBox">
-                TREX GAME
+                TRex<br>Game
             </div></a></td></tr>
         </table>
         <div id="projMenuContent">
@@ -87,17 +87,17 @@
             "<b>Scroll</b> to zoom and <b>Grab + Drag</b> to explore the Mandelbrot Set. " +
             "Change the render quality with the slider." +
             "<br><br>⚠️<i>Note:</i> Higher quality rendering will slow down your browser!";
-            imgName = "mandelbrot.png";
+            imgName = "mandelbrot.jpg";
             srcVal = "";
         } else if(page == "butterflyEffect") {
             titleVal = "The 🦋 Effect!";
             descVal = "The <b>Butterfly Effect</b> is when small changes in the initial conditions " +
             "of a system result in large and chaotic changes over time. This example visualizes " +
-            "the butterfly effect using double pendulums (pendulums with two rods). The " +
+            "the butterfly effect using <i>double pendulums</i> (pendulums with two rods). The " +
             "pendulums begin with only a small offset from one another but quickly split apart. " +
             "<br><br><b>Instructions:</b><br>" +
             "Adjust the parameters with the sliders. To re-run the expirement with new settings click <i>Run!</i>";
-            imgName = "ButterflyEffect.png";
+            imgName = "butterflyEffect.jpg";
             srcVal = "";
         } else if(page == "trexGame") {
             titleVal = "TRex Game";
@@ -114,7 +114,7 @@
         // Draw the contents to screen
         title.innerHTML = titleVal;
         desc.innerHTML = descVal;
-        backImg.style.backgroundImage = 'url("CSS/Images/' + imgName + '")';
+        backImg.style.backgroundImage = 'url("CSS/Images/MenuBackgrounds/' + imgName + '")';
         src.innerHTML = srcVal;
 
         // Fade the img in

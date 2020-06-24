@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <?php include 'Includes/headInfo.php';?>
 
     <link rel="stylesheet" href="CSS/contact.css">
-    <title>Contact</title>
+    <title>Christopher Venczel | Contact Me</title>
+    <meta name="description" 
+    content="Contact me at my email: christopher.venczel@outlook.com, 
+    through LinkedIn, or via GitHub.">
 </head>
 
 <body>

@@ -1,5 +1,6 @@
 <meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet"> 
 <link rel="stylesheet" href="CSS/mainStyles.css">
 <link rel="icon" href="CSS/Images/favicon.png">
 

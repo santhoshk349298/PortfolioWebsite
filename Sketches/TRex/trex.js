@@ -28,6 +28,9 @@
 
         this.dimensions = Runner.defaultDimensions;
 
+        // Set height of container
+        document.getElementById("gameBox").style.height = Runner.defaultDimensions.HEIGHT + "px";
+
         this.canvas = null;
         this.canvasCtx = null;
 
@@ -318,10 +321,6 @@
          * Game initialiser.
          */
         init: function () {
-            // Hide the static icon.
-            document.querySelector('.' + Runner.classes.ICON).style.visibility =
-                'hidden';
-
             this.adjustDimensions();
             this.setSpeed();
 
@@ -2681,7 +2680,7 @@
 
 
 function onDocumentLoad() {
-    new Runner('.interstitial-wrapper');
+    new Runner('#gameBox'); // Default: .interstitial-wrapper
 }
 
 document.addEventListener('DOMContentLoaded', onDocumentLoad);

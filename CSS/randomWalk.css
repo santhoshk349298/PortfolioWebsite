@@ -1,0 +1,23 @@
+#controlBox {
+    /*background-color: white;*/
+    width: 500px;
+    z-index: 10;
+    position: absolute;
+    margin: 0 auto;
+    bottom: var(--footerHeight);
+    left: 0;
+    right: 0;
+    /*border: 2px solid black;
+    border-radius: 10px;*/
+    padding: 2px;
+}
+
+body {
+    background-color: black;
+}
+
+.slider {
+    position: relative;
+    z-index: 10;
+    background-color: black;
+}

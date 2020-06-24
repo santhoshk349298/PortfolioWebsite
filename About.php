@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <?php include 'Includes/headInfo.php';?>
 
     <link rel="stylesheet" href="CSS/about.css">
-    <title>About</title>
+    <title>Christopher Venczel | About Portfolio</title>
+    <meta name="description" 
+    content="Explore a variety of interactive JavaScript 
+    projects that focus on music, design, math, physics, and AI.">
 </head>
 
 <body>

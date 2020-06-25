@@ -14,3 +14,26 @@
     background-color: white;
     line-height: 40px;
 }
+
+#mePic {
+    border-radius: 50%;
+    border: 0px solid black;
+    width: 220px;
+    height: 220px;
+    float: right;
+    display: block;
+    margin: 10px;
+    background-image: url("Images/profilepic.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: grayscale(100%) brightness(1.25) drop-shadow(0px 2px 1px black);
+}
+
+#p1 {
+    
+}
+
+#p2 {
+    display: block;
+    float: left;
+}

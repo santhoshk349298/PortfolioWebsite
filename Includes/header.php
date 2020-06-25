@@ -1,9 +1,9 @@
 <div id="header">
     <!-- The logo and menu items -->
     <div id="menuCenter">
-        <a href="index.php"><img src="CSS/Images/Logo.png" alt="Logo" id="logo"></a>
+        <a href="index.php" id="logoLink"><img src="CSS/Images/Logo.png" alt="Logo" id="logo"></a>
 
-        <ul>
+        <ul id="menuZone">
             <li><a class="menu" onclick="showProjMenu()" href="#">PROJECTS</a></li>
             <li><a class="menu" href="about.php">ABOUT</a></li>
             <li><a class="menu" href="contact.php">CONTACT</a></li>
@@ -94,7 +94,7 @@
             "Change the render quality with the slider." +
             "<br><br>⚠️<i>Note:</i> Higher quality rendering will slow down your browser!";
             imgName = "mandelbrot.jpg";
-            srcVal = "";
+            srcVal = "https://upload.wikimedia.org/wikipedia/commons/b/b5/Mandel_zoom_04_seehorse_tail.jpg";
         } else if(page == "butterflyEffect") {
             titleVal = "The 🦋 Effect!";
             descVal = "The <b>Butterfly Effect</b> is when small changes in the initial conditions " +

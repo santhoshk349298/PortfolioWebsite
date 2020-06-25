@@ -5,7 +5,7 @@
     <?php include 'Includes/headInfo.php';?>
 
     <link rel="stylesheet" href="CSS/brownianTree.css">
-    <script src="Sketches/BrownianTree/BrownianTree.js"></script>
+    <script src="Sketches/BrownianTree/BrownianTreeLines.js"></script>
     <title>Christopher Venczel | Brownian Tree Generator</title>
     <meta name="description" 
     content="Create different types of Brownian trees 

@@ -9,6 +9,30 @@
     <meta name="description" 
     content="Contact me at my email: christopher.venczel@outlook.com, 
     through LinkedIn, or via GitHub.">
+    <script>
+        let oldFunction = setSize;
+
+        setSize = function() {
+            oldFunction();
+            setLinks();
+        };
+
+        function setLinks() {
+            let links = document.getElementsByClassName("basicLink");
+            let center = document.getElementById("centerDiv");
+            if (isMobile) {
+                links[0].innerText = "Email";
+                links[1].innerText = "LinkedIn";
+                links[2].innerText = "Github";
+                center.style.width = "350px";
+            } else {
+                links[0].innerText = "christopher.venczel@outlook.com";
+                links[1].innerText = "www.linkedin.com/in/christopher-venczel";
+                links[2].innerText = "www.github.com/chrisvenczel";
+                center.style.width = "600px";
+            }
+        }
+    </script>
 </head>
 
 <body>

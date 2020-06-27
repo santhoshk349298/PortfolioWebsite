@@ -5,7 +5,8 @@
     <?php include 'Includes/headInfo.php';?>
 
     <link rel="stylesheet" href="CSS/index.css">
-    <script src="Sketches/Index/indexSketch.js"></script>
+    <!--<script src="Sketches/Index/indexSketch.js"></script>-->
+    <script src="Sketches/WelcomeScreen/welcome.js"></script>
     <title>Christopher Venczel | Interactive Portfolio</title>
     <meta name="description" 
     content="This website is an interactive portfolio of Javascript 
@@ -17,6 +18,7 @@
     <?php include 'Includes/footer.php';?>
 
     <!-- The floating window -->
+    <!--
     <div id="controlWindow">
         <div id="grabber"></div>
         <div id="controls">
@@ -31,6 +33,7 @@
             <div id="buttonBox"></div>
         </div>
     </div>
+    -->
 </body>
 
 </html> 

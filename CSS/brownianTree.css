@@ -1,15 +1,23 @@
 #controlBox {
-    /*background-color: white;*/
-    width: 500px;
+    background-color: white;
+    width: 80%;
+    max-width: 500px;
     z-index: 10;
+    height: 100px;
     position: absolute;
     margin: 0 auto;
     bottom: var(--footerHeight);
     left: 0;
     right: 0;
-    /*border: 2px solid black;
-    border-radius: 10px;*/
-    padding: 2px;
+    border-radius: 10px 10px 0px 0px;
+    /*padding: 2px;*/
+}
+
+#controlBox th {
+    width: 50%;
+    border-radius: 10px;
+    padding: 0px 10px 0px 10px;
+    text-align: left;
 }
 
 body {
@@ -17,7 +25,24 @@ body {
 }
 
 .slider {
-    position: relative;
-    z-index: 10;
-    background-color: black;
+    background-color: white;
+    display: inline-block;
+    padding-top: 10px;
+}
+
+.lbl {
+    font-size: x-large;
+    font-weight: 800;
+    font-family: 'Roboto', sans-serif;
+    display: block;
+}
+
+.boxLbl {
+    font-size: large;   
+    margin-right: 20px;
+}
+
+.checkbox {
+    margin-top: 15px;
+    margin-right: 5px;
 }

@@ -104,17 +104,18 @@ let maxTreeSize = 500;
 let showWalkers = true;
 let showBounds = false;
 let colT;
+let centerVect;
 
-let fromPoint = false;
+let fromPoint = true;
 
 function setup() {
   defaultSetup();
 
   // The UI
-  uiGraphics = createGraphics(width, 40);
-  let ctrlBox = document.getElementById("controlBox");
+  uiGraphics = createGraphics(200, 40);
+  let qualityBox = document.getElementById("qualityBox");
   qualitySlider = createSlider(100, 300, 150);
-  qualitySlider.parent(ctrlBox);
+  qualitySlider.parent(qualityBox);
   qualitySlider.class("slider");
   qualitySlider.input(reset);
 
@@ -149,21 +150,21 @@ function Branch(x1, y1, x2, y2) {
 
   this.show = function() {
     // Color based on distance from center
-    let calcPntX = width/2;
-    let calcPntY = height/2; 
+    let calcPntX = centerVect.x;
+    let calcPntY = centerVect.y; 
     let xPos = abs(this.x1-(calcPntX)); 
     let yPos = abs(this.y1-(calcPntY));
     let distFromCenter;
     if (fromPoint) {
       distFromCenter = sqrt(xPos*xPos + yPos*yPos); 
     } else {
-      distFromCenter = abs(this.y1-height/2);
+      distFromCenter = abs(this.y1-centerVect.y);
     }
     colorMode(HSB);
     let lineHue = (distFromCenter*0.8+colT)%360;
     stroke(lineHue,100,100);
-    let innerW = 10;
-    let outerW = 3;
+    let innerW = 7;
+    let outerW = 2;
     let thicknessVal = distFromCenter/((innerBound.ry - innerBound.ly)/2);
     if (map(thicknessVal, 0, 1, innerW, outerW) > max(innerW, outerW)) {
       thicknessVal = min(innerW, outerW);
@@ -221,15 +222,17 @@ function reset() {
   innerBound = new Bound(0,0,0,0);
   outerBound = new Bound(0,0,0,0);
 
+  centerVect = createVector(width/2, height/2 - (height/18));
+
   if (fromPoint) {
     // Generate from a point
-    brownianTree[0] = new Branch(width/2, height/2, width/2+walkerR*2, height/2);
+    brownianTree[0] = new Branch(width/2, centerVect.y, width/2+walkerR*2, centerVect.y);
   } else {
     // Generate from line // TODO
     let numOfStartPoints = floor(width/walkerR/4);
     for (let i = 0; i < numOfStartPoints; i++) {
-      brownianTree[i] = new Branch((i+0.5)*(width/numOfStartPoints), height/2,
-       (i+0.5)*(width/numOfStartPoints)+walkerR*3, height/2);
+      brownianTree[i] = new Branch((i+0.5)*(width/numOfStartPoints), centerVect.y,
+       (i+0.5)*(width/numOfStartPoints)+walkerR*3, centerVect.y);
     }
   }
   
@@ -248,11 +251,11 @@ function draw() {
     background(0, 100);
     blendMode(BLEND);
 
-    uiGraphics.fill(100);
+    uiGraphics.fill(150);
     uiGraphics.noStroke();
     uiGraphics.textSize(20);
     uiGraphics.background(0);
-    uiGraphics.text('Quality: '+qualitySlider.value(), width-125, 30)
+    //uiGraphics.text('Quality: '+qualitySlider.value(), width-125, 30)
 
     colT+=1;
 

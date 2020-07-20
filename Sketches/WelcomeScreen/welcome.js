@@ -103,7 +103,7 @@ function setup() {
 
 let fontFamily;
 function preload() {
-  fontFamily = loadFont('CSS/BERNHC.TTF');
+  fontFamily = loadFont('Sketches/WelcomeScreen/BERNHC.TTF');
 }
 
 function makeSphere() {
@@ -186,10 +186,10 @@ function draw() {
 
   textAlign(CENTER, CENTER);
   fill(255);
-  text("Welcome", 0, -height/25+height/200);
+  text("welcome", height/200, -height/25+height/200);
 
   fill(0);
-  text("Welcome", 0, -height/25);
+  text("welcome", 0, -height/25);
   pop();
  
 

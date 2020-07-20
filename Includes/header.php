@@ -29,6 +29,12 @@
                 The<br>Butterfly<br>Effect
             </div></a></td></tr>
 
+            <tr onmouseover="setDesc('chaosGame')" onmouseout="resetDesc()">
+            <td><a class="noStyleLink" href="chaosGame.php">
+            <div class="projLinkBox">
+                Chaos<br>Game<br>Fractals
+            </div></a></td></tr>
+
             <tr onmouseover="setDesc('brownianTree')" onmouseout="resetDesc()">
             <td><a class="noStyleLink" href="brownianTree.php">
             <div class="projLinkBox">
@@ -82,7 +88,7 @@
         let srcVal;
 
         if (page == "mandelbrot"){
-            titleVal = "Fractals!";
+            titleVal = "The Mandelbrot!";
             descVal = 
             "The <b>Mandelbrot Set</b> is a set of complex numbers " +
             "first discovered by the mathematician Benoit B. " +
@@ -104,6 +110,16 @@
             "<br><br><b>Instructions:</b><br>" +
             "Adjust the parameters with the sliders. To re-run the expirement with new settings click <i>Run!</i>";
             imgName = "butterflyEffect.jpg";
+            srcVal = "";
+        } else if(page == "chaosGame") {
+            titleVal = "Geometric Fractals!";
+            descVal = "The <b>Chaos Game</b> is a method of generating a fractal by using a polygon and a point "+
+            "which moves inside the polygon according to certain rules. By changing the polygon and the restrictions "+
+            "this method allows for the generation of a wide variety of fractals including the Sierpinski triangle and "+
+            "Sierpinski carpet."+
+            "<br><br><b>Instructions:</b><br>" +
+            "Adjust the parameters with the sliders found in the collapsible options menu. The render will update automatically.";
+            imgName = "ChaosGame.jpg";
             srcVal = "";
         } else if(page == "brownianTree") {
             titleVal = "Brownian Trees!";

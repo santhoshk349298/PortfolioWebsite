@@ -1,5 +1,6 @@
 body {
     background-color: black;
+    color: rgb(210, 210, 210);
 }
 
 #ctrlBox {
@@ -25,7 +26,6 @@ body {
 #ctrlTable td {
     width: 33%;
     font-size: large;
-    color:white;
     text-align: center;
 }
 
@@ -33,7 +33,6 @@ body {
     display: inline-flex;
     cursor: pointer;
     position: relative;
-    color: white;
     font-size: large;
 }
 

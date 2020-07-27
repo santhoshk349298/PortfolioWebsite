@@ -252,14 +252,14 @@ function drawUI() {
   penNumCtrl.input(setRunLabel);
 
   textSize(19);
-  fill(255);
+  fill(210);
   text("# of Pendulums: "+penNumCtrl.value(), width-200, 30);
 
   ctrlBox.style.width = width+"px";
 
-  m1Txt.innerHTML = "Mass 1:&ensp;&ensp;"+m1Ctrl.value;
-  m2Txt.innerHTML = "Mass 2:&ensp;&ensp;"+m2Ctrl.value;
-  gTxt.innerHTML = "Strength of Gravity: "+gCtrl.value;
+  m1Txt.innerHTML = "Mass 1:&ensp;"+m1Ctrl.value+"kg";
+  m2Txt.innerHTML = "Mass 2:&ensp;"+m2Ctrl.value+"kg";
+  gTxt.innerHTML = "Strength of Gravity: "+gCtrl.value+"%";
 }
 
 function setRunLabel() {

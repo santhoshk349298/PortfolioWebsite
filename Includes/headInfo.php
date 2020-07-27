@@ -23,6 +23,8 @@
     window.onload = (event) => {
         logoLink = document.getElementById("logoLink");
         logo = logoLink.firstChild;
+        header = document.getElementById("header");
+        footer = document.getElementById("footer");
         buttons = document.getElementsByClassName("menu");
         buttons = Array.prototype.slice.call(buttons);
         menuZone = document.getElementById("menuZone");
@@ -77,4 +79,14 @@
         centerBox.insertBefore(logoLink, centerBox.firstChild)
     }
 
+    function setDarkMode() {
+        for (let i = 0; i < 3; i++) {
+            buttons[i].style.color = "rgb(50, 50, 50)";
+        }
+        //logo.style.filter = "invert(0.7) drop-shadow(-1px -1px 0 black) drop-shadow(1px 1px 0 black)";
+        header.style.filter = "invert(1)";
+        footer.style.filter = "invert(1)";
+        header.style.backgroundColor = "rgb(240, 240, 240)";
+        footer.style.backgroundColor = "rgb(240, 240, 240)";
+    }
 </script>

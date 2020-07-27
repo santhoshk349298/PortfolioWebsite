@@ -10,6 +10,12 @@
     <meta name="description" 
     content="Visualize the chaos of the butterfly effect
      with this colorful interactive double pendulum simulation.">
+
+    <script>
+        window.addEventListener("load", function(){
+            setDarkMode();
+        });
+    </script>
 </head>
 
 <body>

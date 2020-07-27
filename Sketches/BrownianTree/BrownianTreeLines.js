@@ -89,8 +89,10 @@ function tooSmallError(){
 
 /*---------------START----------------*/
 
+let qualityLbl;
 let qualitySlider;
-let uiGraphics;
+let generateLbl;
+let playBtn;
 
 let walkerNum = 100; // Number of moving walkers
 let walkerR;
@@ -112,12 +114,15 @@ function setup() {
   defaultSetup();
 
   // The UI
-  uiGraphics = createGraphics(200, 40);
   let qualityBox = document.getElementById("qualityBox");
   qualitySlider = createSlider(100, 300, 150);
   qualitySlider.parent(qualityBox);
   qualitySlider.class("slider");
   qualitySlider.input(reset);
+  generateLbl = document.getElementById("generationLabel");
+  qualityLbl = document.getElementById("qualityLbl");
+  playBtn = document.getElementById("play");
+  playBtn.onclick = reset;
 
   walkerR = width/qualitySlider.value();
   walkerNum = qualitySlider.value()*1.1;
@@ -251,22 +256,19 @@ function draw() {
     background(0, 100);
     blendMode(BLEND);
 
-    uiGraphics.fill(150);
-    uiGraphics.noStroke();
-    uiGraphics.textSize(20);
-    uiGraphics.background(0);
-    //uiGraphics.text('Quality: '+qualitySlider.value(), width-125, 30)
-
     colT+=1;
+
+    let qualityNum = map(qualitySlider.value(), 100, 300, 0, 100).toFixed(0);
+    qualityLbl.innerText = "Quality: "+qualityNum+"%";
 
     // Stop adding new walkers once max size is reached
     if (brownianTree.length >= maxTreeSize || !expandObject) {
       expandObject = false;
       showBounds = false;
-      uiGraphics.text('Done Generating', 20, 30);
+      generateLbl.innerText = "Done Generating";
     } else {
       let genProg = (max((brownianTree.length/maxTreeSize)*100, 0)).toFixed(1);
-      uiGraphics.text('Generating: '+genProg+'%', 20, 30);
+      generateLbl.innerText = 'Generating: '+genProg+'%';
     }
 
     // Draw all the walkers
@@ -370,7 +372,5 @@ function draw() {
         walkers.push(new Walker(newX, newY));
       }
     }
-    
-    image(uiGraphics, 0, 0);
   }
 }

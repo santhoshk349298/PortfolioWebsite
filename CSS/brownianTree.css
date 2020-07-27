@@ -1,23 +1,42 @@
-#controlBox {
-    background-color: white;
+#outerControlBox {
+    background-color: rgba(0, 0, 0, 0.8);
     width: 80%;
-    max-width: 500px;
+    max-width: 600px;
     z-index: 10;
-    height: 100px;
+    /*height: 100px;*/
     position: absolute;
     margin: 0 auto;
     bottom: var(--footerHeight);
     left: 0;
     right: 0;
-    border-radius: 10px 10px 0px 0px;
-    /*padding: 2px;*/
+    bottom: 80px;
+    border-radius: 10px;
+    border: 2px solid rgb(14, 14, 14);
+    text-align: center;
 }
 
-#controlBox th {
+
+input[type=range] {
+    background: transparent;
+}
+
+#generationLabel {
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    margin-top: 10px;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+#controlTable th {
     width: 50%;
     border-radius: 10px;
     padding: 0px 10px 0px 10px;
     text-align: left;
+    /*border: 2px solid red;*/
 }
 
 body {
@@ -31,14 +50,16 @@ body {
 }
 
 .lbl {
-    font-size: x-large;
-    font-weight: 800;
+    font-size: 20px;
+    font-weight: 100;
     font-family: 'Roboto', sans-serif;
+    color: rgb(170, 170, 170); 
     display: block;
 }
 
 .boxLbl {
-    font-size: large;   
+    font-size: large;  
+    color: white; 
     margin-right: 20px;
 }
 
@@ -46,3 +67,65 @@ body {
     margin-top: 15px;
     margin-right: 5px;
 }
+
+
+
+@-webkit-keyframes spin {
+    to {
+      -webkit-transform: rotate(360deg);
+              transform: rotate(360deg);
+    }
+  }
+  @keyframes spin {
+    to {
+      -webkit-transform: rotate(360deg);
+              transform: rotate(360deg);
+    }
+  }
+  .stroke-dotted {
+    opacity: 0;
+    stroke-dasharray: 4, 5;
+    stroke-width: 1px;
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    -webkit-animation: spin 4s infinite linear;
+            animation: spin 4s infinite linear;
+    -webkit-transition: opacity 1s ease, stroke-width 1s ease;
+    transition: opacity 1s ease, stroke-width 1s ease;
+  }
+  
+  .stroke-solid {
+    stroke-dashoffset: 0;
+    stroke-dasharray: 300;
+    stroke-width: 4px;
+    -webkit-transition: stroke-dashoffset 1s ease, opacity 1s ease;
+    transition: stroke-dashoffset 1s ease, opacity 1s ease;
+  }
+  
+  .icon {
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    -webkit-transition: -webkit-transform 200ms ease-out;
+    transition: -webkit-transform 200ms ease-out;
+    transition: transform 200ms ease-out;
+    transition: transform 200ms ease-out, -webkit-transform 200ms ease-out;
+  }
+  
+  #play:hover .stroke-dotted {
+    stroke-width: 4px;
+    opacity: 1;
+  }
+  #play:hover .stroke-solid {
+    opacity: 0;
+    stroke-dashoffset: 300;
+  }
+  #play:hover .icon {
+    -webkit-transform: scale(1.05);
+            transform: scale(1.05);
+  }
+  
+  #play {
+    cursor: pointer;
+  }
+  
+

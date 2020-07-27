@@ -24,6 +24,7 @@
 
     <span id="generationLabel" class="lbl">Generating: 100%</span>
     <div id="outerControlBox">
+        <span id="changesLbl">Click play to see changes.</span>
         <table id="controlTable">
             <tr>
                 <th id="qualityBox">
@@ -31,9 +32,9 @@
                 </th>
                 <th>
                     <span class="lbl">Generate From:</span>
-                    <input type="radio" class="checkbox" name="spawn" value="point" checked>
+                    <input type="radio" autocomplete="off" class="checkbox spawn" name="spawn" value="point" checked>
                     <label for="point" class="boxLbl">Point</label>
-                    <input type="radio" class="checkbox" name="spawn" value="line">
+                    <input type="radio" autocomplete="off" class="checkbox spawn" name="spawn" value="line">
                     <label for="line" class="boxLbl">Line</label>
                 </th>
                 <th>

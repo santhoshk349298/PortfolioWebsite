@@ -91,7 +91,9 @@ function tooSmallError(){
 
 let qualityLbl;
 let qualitySlider;
+let changesLbl;
 let generateLbl;
+let spawnType;
 let playBtn;
 
 let walkerNum = 100; // Number of moving walkers
@@ -107,28 +109,49 @@ let showWalkers = true;
 let showBounds = false;
 let colT;
 let centerVect;
+let quality;
 
 let fromPoint = true;
+let fromPointNext = true;
 
 function setup() {
-  defaultSetup();
-
   // The UI
+  changesLbl = document.getElementById("changesLbl");
+  generateLbl = document.getElementById("generationLabel");
+  qualityLbl = document.getElementById("qualityLbl");
+
   let qualityBox = document.getElementById("qualityBox");
   qualitySlider = createSlider(100, 300, 150);
   qualitySlider.parent(qualityBox);
   qualitySlider.class("slider");
-  qualitySlider.input(reset);
-  generateLbl = document.getElementById("generationLabel");
-  qualityLbl = document.getElementById("qualityLbl");
-  playBtn = document.getElementById("play");
-  playBtn.onclick = reset;
+  qualitySlider.input(newQuality);
 
-  walkerR = width/qualitySlider.value();
-  walkerNum = qualitySlider.value()*1.1;
-  maxTreeSize = qualitySlider.value()*7.5;
+  playBtn = document.getElementById("play");
+  playBtn.onclick = reset; 
+  
+  spawnType = document.getElementsByClassName('spawn');
+  spawnType[0].addEventListener('input', function() {
+    fromPointNext = true;
+    changesLbl.style.display = "block";
+  });
+  spawnType[1].addEventListener('input', function() {
+    fromPointNext = false;
+    changesLbl.style.display = "block";
+  });
+
+  defaultSetup();
+
+  walkerR = width/quality;
+  walkerNum = quality*1.1;
+  maxTreeSize = quality*7.5;
 
   reset();
+}
+
+function newQuality() {
+  let qualityNum = map(qualitySlider.value(), 100, 300, 1, 100).toFixed(0);
+  qualityLbl.innerText = "Quality: "+qualityNum+"%";
+  changesLbl.style.display = "block";
 }
 
 function Bound(lx, ly, rx, ry) {
@@ -168,7 +191,7 @@ function Branch(x1, y1, x2, y2) {
     colorMode(HSB);
     let lineHue = (distFromCenter*0.8+colT)%360;
     stroke(lineHue,100,100);
-    let innerW = 7;
+    let innerW = map(quality, 100, 300, 8, 5);
     let outerW = 2;
     let thicknessVal = distFromCenter/((innerBound.ry - innerBound.ly)/2);
     if (map(thicknessVal, 0, 1, innerW, outerW) > max(innerW, outerW)) {
@@ -226,14 +249,21 @@ function reset() {
   brownianTree = [];
   innerBound = new Bound(0,0,0,0);
   outerBound = new Bound(0,0,0,0);
+  quality = qualitySlider.value();
+  changesLbl.style.display = "none";
+
+  let qualityNum = map(quality, 100, 300, 1, 100).toFixed(0);
+  qualityLbl.innerText = "Quality: "+qualityNum+"%";
 
   centerVect = createVector(width/2, height/2 - (height/18));
 
-  if (fromPoint) {
+  if (fromPointNext) {
     // Generate from a point
+    fromPoint = true;
     brownianTree[0] = new Branch(width/2, centerVect.y, width/2+walkerR*2, centerVect.y);
   } else {
     // Generate from line // TODO
+    fromPoint = false;
     let numOfStartPoints = floor(width/walkerR/4);
     for (let i = 0; i < numOfStartPoints; i++) {
       brownianTree[i] = new Branch((i+0.5)*(width/numOfStartPoints), centerVect.y,
@@ -247,9 +277,9 @@ function draw() {
   if (tooSmall) {
     tooSmallError();
   } else {
-    walkerR = width/qualitySlider.value();
-    walkerNum = qualitySlider.value();
-    maxTreeSize = qualitySlider.value()*7.5;
+    walkerR = width/quality;
+    walkerNum = quality;
+    maxTreeSize = quality*7.5;
 
     blendMode(DARKEST);
     colorMode(RGB);
@@ -257,9 +287,6 @@ function draw() {
     blendMode(BLEND);
 
     colT+=1;
-
-    let qualityNum = map(qualitySlider.value(), 100, 300, 0, 100).toFixed(0);
-    qualityLbl.innerText = "Quality: "+qualityNum+"%";
 
     // Stop adding new walkers once max size is reached
     if (brownianTree.length >= maxTreeSize || !expandObject) {

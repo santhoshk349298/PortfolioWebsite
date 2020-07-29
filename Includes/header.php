@@ -97,8 +97,7 @@
             "which leads to the emergence of beautiful infinitely detailed patterns." +
             "<br><br><b>Instructions:</b><br>" +
             "<b>Scroll</b> to zoom and <b>Grab + Drag</b> to explore the Mandelbrot Set. " +
-            "Change the render quality with the slider." +
-            "<br><br>⚠️<i>Note:</i> Higher quality rendering will slow down your browser!";
+            "Change the render quality with the slider.";
             imgName = "mandelbrot.jpg";
             srcVal = "https://upload.wikimedia.org/wikipedia/commons/b/b5/Mandel_zoom_04_seehorse_tail.jpg";
         } else if(page == "butterflyEffect") {
@@ -114,9 +113,8 @@
         } else if(page == "chaosGame") {
             titleVal = "Geometric Fractals!";
             descVal = "The <b>Chaos Game</b> is a method of generating a fractal by using a polygon and a point "+
-            "which moves inside the polygon according to certain rules. By changing the polygon and the restrictions "+
-            "this method allows for the generation of a wide variety of fractals including the Sierpinski triangle and "+
-            "Sierpinski carpet."+
+            "which moves inside the polygon according to certain rules. By changing the polygon and the rules controlling the point's movement "+
+            "this method allows for the generation of a wide variety of fractals."+
             "<br><br><b>Instructions:</b><br>" +
             "Adjust the parameters with the sliders found in the collapsible options menu. The render will update automatically.";
             imgName = "ChaosGame.jpg";
@@ -127,7 +125,7 @@
             "that have Brownian motion. This process is called <i>diffusion-limited aggregation</i> and is " +
             "found in nature in everything from the creation of snowflakes to dendrites in our brains." +
             "<br><br><b>Instructions:</b><br>" +
-            "Adjust the parameters with the sliders. To re-run the expirement with new settings click <i>Run!</i>";
+            "Adjust the parameters with the controls located at the bottom of the screen. To see changes click the &#9654; button.";
             imgName = "brownianTree.jpg";
             srcVal = "";
         }else if(page == "trexGame") {

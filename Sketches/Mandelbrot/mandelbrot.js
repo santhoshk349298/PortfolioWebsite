@@ -1,18 +1,18 @@
-var header;
-var footer;
-var cnv;
-var tooSmall;
-var aspectRatioTop;
-var aspectRatioBottom
+let header;
+let footer;
+let cnv;
+let tooSmall;
+let aspectRatioTop;
+let aspectRatioBottom
 
 // Colors
-var black;
-var white;
-var lightGrey;
-var redCol;
-var darkAccent;
-var lightAccent;
-var brightAccent;
+let black;
+let white;
+let lightGrey;
+let redCol;
+let darkAccent;
+let lightAccent;
+let brightAccent;
 
 function defaultSetup() {
   // Initialize Variables
@@ -39,9 +39,9 @@ function defaultSetup() {
 }
 
 function windowResized(){
-  var canvH = windowHeight - headerH - footerH - 30;
-  var canvW = windowWidth;
-  var calcW = canvH*(aspectRatioTop/aspectRatioBottom);
+  let canvH = windowHeight - headerH - footerH - 30 - topMenu.clientHeight;
+  let canvW = windowWidth;
+  let calcW = canvH*(aspectRatioTop/aspectRatioBottom);
 
   // Maintain 16:9 ratio based off height
   if (calcW > canvW){
@@ -53,7 +53,7 @@ function windowResized(){
   }
 
   // Set the "too small" flag
-  if (canvW < 700){
+  if (canvW < 100){
     tooSmall = true;
   } else {
     tooSmall = false;
@@ -61,8 +61,10 @@ function windowResized(){
 
   resizeCanvas(canvW, canvH);
 
-  var x = (windowWidth - canvW)/2;
-  cnv.position(x, headerH+10);
+  let x = (windowWidth - canvW)/2;
+  cnv.position(x, headerH+topMenu.clientHeight);
+
+  topMenu.style.width = width+"px";
 
   redraw();
 }
@@ -90,77 +92,121 @@ function tooSmallError(){
 
 /*---------------START----------------*/
 
-var img; // The picture being rendered
+let img; // The picture being rendered
 
-var centerI; // The i coordinate of the center of the screen
-var centerR; // The r coordinate of the center of the screen
-var graphHeight; // The height of the graph currently
-var graphWidth; // The width of the graph currently
+let centerI; // The i coordinate of the center of the screen
+let centerR; // The r coordinate of the center of the screen
+let graphHeight; // The height of the graph currently
+let graphWidth; // The width of the graph currently
 
-var clickPoint; // The point where screen is clicked for dragging
-var dragged = false; // Is the screen being dragged?
+let clickPoint; // The point where screen is clicked for dragging
+let dragged = false; // Is the screen being dragged?
 
-var iterations = 20; // The default number of iterations per pixel
+let iterations = 20; // The default number of iterations per pixel
 
-var sizeFactor = 0.4; // Default quality of the image
+let sizeFactor = 0.4; // Default quality of the image
 
-var resetBtn; // Reset the position and zoom of the Mandelbrot
-var rBtnW = 80;
-var rBtnH = 50;
-var cBtnH = 60;
+let rBtnW = 80;
+let rBtnH = 50;
+let cBtnH = 60;
 
-var saveBtn; // The button to save an image
-
-var qualitySlider;
-var sliderBoxW = 500;
-var sliderBoxH = 50;
-var starterQuality = 0.1; // The starter quality (for each set of renders)
+let movingQuality = 0.1; // The render quality while moving
 
 // Is the control cooldown activated
-// While it is activate only render at starterQuality to reduce lag
-var controlCooldown = false; 
-var cooldownTime = 1000; // The cooldown time in ms
-var cooldownTimer; // The timer object
+// While it is activate only render at movingQuality to reduce lag
+let controlCooldown = false; 
+let cooldownTime = 1000; // The cooldown time in ms
+let cooldownTimer; // The timer object
 
 // The randomized color weights
-var rWeight;
-var gWeight;
-var bWeight;
+let rWeight;
+let gWeight;
+let bWeight;
 
-var projectsMenu;
+// UI
+let projectsMenu;
+let topMenu;
+let saveBtn;
+let resetBtn;
+let colBtn;
+let zoomTxt;
+let loadTxt;
+let loadBarElem;
+let loadPercent = 0;
+let qualitySlider;
+let qualityTxt;
+let currentQuality = 30;
+let sliderBoxW = 500;
+let sliderBoxH = 50;
 
 // Check if a button was pressed
-var buttonPressed = false;
+let buttonPressed = false;
+
+let isFullQuality;
+
+// The async intervals (for full renders)
+let intervals = [];
 
 function setup() {
+  // The UI
+  projectsMenu = document.getElementById("projectsMenu");
+
+  topMenu = document.getElementById("topControlsBar");
+
+  resetBtn = document.getElementById("resetBtn");
+  resetBtn.addEventListener("click", function() {
+    resetMandelbrot();
+    draw();
+  });
+
+  colBtn = document.getElementById("colBtn");
+  colBtn.addEventListener("click", function() {
+    randomizeColor();
+    draw();
+  });
+
+  saveBtn = document.getElementById("saveBtn");
+  saveBtn.addEventListener("click", saveImage);
+
+  zoomTxt = document.getElementById("zoom");
+
+  loadTxt = document.getElementById("loadText");
+
+  loadBarElem = document.getElementById("myBar");
+
+  qualityTxt = document.getElementById("qualityTxt");
+
+  qualitySlider = document.getElementById("qualitySlider");
+  qualitySlider.addEventListener("input", function() {
+    if (qualitySlider.value == 1) {
+      // Low
+      currentQuality = 10;
+      qualityTxt.innerText = "Quality: Low";
+    } else if (qualitySlider.value == 2) {
+      // Medium
+      currentQuality = 40;
+      qualityTxt.innerText = "Quality: Medium";
+    } else if (qualitySlider.value == 3) {
+      // High
+      currentQuality = 75;
+      qualityTxt.innerText = "Quality: High";
+    } else if (qualitySlider.value == 4) {
+      // Max
+      currentQuality = 100;
+      qualityTxt.innerText = "Quality: Max";
+    }
+  });
+  qualitySlider.addEventListener("change", function() {
+    setQuality();
+  });
+
   defaultSetup();
   noLoop();
-
-  projectsMenu = document.getElementById("projectsMenu");
 
   centerR = -0.5;
   centerI = 0;
   graphHeight = aspectRatioBottom;
   graphWidth = aspectRatioTop;
-
-  resetBtn = createButton("reset");
-  resetBtn.class("button");
-  resetBtn.size(rBtnW, rBtnH);
-  resetBtn.mousePressed(resetMandelbrot);
-
-  colBtn = createButton("random color");
-  colBtn.class("button");
-  colBtn.size(rBtnW, cBtnH);
-  colBtn.mousePressed(randomizeColor);
-
-  saveBtn = createButton("save image");
-  saveBtn.class("button");
-  saveBtn.size(rBtnW, cBtnH);
-  saveBtn.mousePressed(saveImage);
-
-  qualitySlider = createSlider(1, 100, sizeFactor*100);
-  qualitySlider.parent("sliderArea");
-  qualitySlider.mouseReleased(setQuality);
 
   // Initialize the random color weights
   randomizeColor();
@@ -168,7 +214,7 @@ function setup() {
 }
 
 function setQuality() {
-  sizeFactor = qualitySlider.value()/100;
+  sizeFactor = currentQuality/100;
   redraw();
 }
 
@@ -198,6 +244,8 @@ function randomizeColor() {
 }
 
 function renderCooldown() {
+  loadBarElem.style.display = "none";
+  loadTxt.innerText = "Moving...";
   if (!buttonPressed) {
     clearTimeout(cooldownTimer);
     controlCooldown = true;
@@ -269,7 +317,6 @@ function mouseReleased() {
     centerI += yDrag;
 
     // Redraw the screen
-    sizeFactor = starterQuality; // Reset quality
     renderCooldown();
     redraw();
   }
@@ -309,7 +356,6 @@ function mouseWheel(event) {
       iterations += 4;
     } else {
       // Redraw the screen
-      sizeFactor = starterQuality; // Reset quality
       renderCooldown();
       redraw();
     }
@@ -317,34 +363,21 @@ function mouseWheel(event) {
 }
 
 function drawUI() {
-  // Set the button positions
-  resetBtn.position(cnv.position().x + width - rBtnW - width/100,
-  cnv.position().y + height/100);
-
-  colBtn.position(cnv.position().x + width - rBtnW - width/100,
-  cnv.position().y + height - cBtnH - (height/100));
-  
-  saveBtn.position(cnv.position().x + width/100,
-  cnv.position().y + height - cBtnH - (height/100));
-
   strokeWeight(3);
   stroke(white);
   // The length of the crosshairs
-  let cLength = width/50;
+  let cLength = width/100;
+  blendMode(EXCLUSION);
   // Vertical line
   line(width/2, (height/2)-cLength, width/2, (height/2)+cLength);
   // Horizontal line
   line((width/2)-cLength, height/2, (width/2)+cLength, height/2);
 
   // Text
-  strokeWeight(2);
-  stroke(white);
-  fill(black);
+  strokeWeight(0);
+  fill(white);
   textAlign(LEFT);
   textSize(height/35);
-  
-  // # of decimal places visible
-  let accuracy = 2;
 
   // Center Coord
   push();
@@ -352,10 +385,16 @@ function drawUI() {
   textAlign(LEFT);
   text(centerR.toFixed(2) + " + " + centerI.toFixed(2) + "i", width/120, -height/100);
   pop();
+  blendMode(BLEND);
 
   // Zoom Level
-  textAlign(LEFT);
-  text("Zoom: "+(graphWidth/aspectRatioTop).toFixed(10), width/50, height/20);
+  zoomNum = expo(graphWidth/aspectRatioTop, 3)+"";
+  zoomNum = zoomNum.split("e");
+  zoomTxt.innerHTML = "Zoom:<br>"+zoomNum[0]+" x 10<sup>"+zoomNum[1]+"</sup>";
+}
+
+function expo(x, f) {
+  return Number.parseFloat(x).toExponential(f);
 }
 
 function drawMandelbrot(cr, ci) {
@@ -380,74 +419,118 @@ function drawMandelbrot(cr, ci) {
   return 1; 
 }
 
+function calculateDrawing(r, i, rMax, iMax) {
+  let rPos = map(r, 0, rMax, 
+    centerR-(graphWidth/2), centerR+(graphWidth/2));
+  let iPos = map(i, 0, iMax, 
+    centerI+(graphHeight/2), centerI-(graphHeight/2));
+  
+  let col;
+  let colVal = drawMandelbrot(rPos, iPos);
+
+  let rCol = Math.floor(Math.sin(Math.PI * rWeight * colVal) * 255);
+  let gCol = Math.floor(Math.sin(Math.PI * gWeight * colVal) * 255);
+  let bCol = Math.floor(Math.sin(Math.PI * bWeight * colVal) * 255);
+
+  if (colVal == 1) {
+    col = color(0, 0, 0);
+  } else {
+    col = color(rCol, gCol, bCol);
+  }
+
+  img.set(r, i, col);
+}
+
+function showDrawing() {
+  document.body.style.cursor = 'default';
+
+  if (isFullQuality) {
+    loadTxt.innerText = "Render Complete";
+    loadBarElem.style.display = "none";
+
+    // Stop any current full renders
+    for (let i = 0; i < intervals.length; i++) {
+      clearInterval(intervals[i]);
+    }
+    intervals = [];
+  }
+
+  imageMode(CORNERS);
+  img.updatePixels();
+  image(img, -15, 0, width, height);
+
+  drawUI();
+}
+
 function draw() {
-  // Refresh the screen
-  clear();
   if (tooSmall) {
     tooSmallError();
   } else {
-    // Set the quality of the image render
+    // Low quality if moving, else chosen quality
     if (controlCooldown) {
-      sizeFactor = starterQuality;
-      noLoop();
+      isFullQuality = false;
+      sizeFactor = movingQuality;
     } else {
-      if (sizeFactor < qualitySlider.value()/100) {
-        loop();
-      } else {
-        sizeFactor = qualitySlider.value()/100;
-        noLoop();
+      // Starts a full quality render
+      // Stop any current full renders
+      for (let i = 0; i < intervals.length; i++) {
+        clearInterval(intervals[i]);
       }
+      intervals = [];
+
+      loadBarElem.style.display = "block";
+      loadBarElem.style.width = 0+"%";
+      loadTxt.innerText = "Loading: "+0+"%";
+      isFullQuality = true;
+      sizeFactor = currentQuality/100;
     }
 
-    img = createImage(floor(width*sizeFactor), floor(height*sizeFactor));
+    let rMax = floor(width*sizeFactor);
+    let iMax = floor(height*sizeFactor);
+    img = createImage(rMax, iMax);
     img.loadPixels();
     colorMode(RGB, 255);
 
-    //let rTot = 0;
-    //let gTot = 0;
-    //let bTot = 0;
-    //let pxNum = floor(width*sizeFactor)*floor(height*sizeFactor);
-    for (let r = 0; r < floor(width*sizeFactor); r++) {
-      for (let i = 0; i < floor(height*sizeFactor); i++) {
-
-        let rPos = map(r, 0, floor(width*sizeFactor), 
-          centerR-(graphWidth/2), centerR+(graphWidth/2));
-        let iPos = map(i, 0, floor(height*sizeFactor), 
-          centerI+(graphHeight/2), centerI-(graphHeight/2));
-        
-        let col;
-        let colVal = drawMandelbrot(rPos, iPos);
-
-        var rCol = Math.floor(Math.sin(Math.PI * rWeight * colVal) * 255);
-        var gCol = Math.floor(Math.sin(Math.PI * gWeight * colVal) * 255);
-        var bCol = Math.floor(Math.sin(Math.PI * bWeight * colVal) * 255);
-        //rTot += rCol;
-        //gTot += gCol;
-        //bTot += bCol;
-
-        if (colVal == 1) {
-          col = color(0, 0, 0);
-        } else {
-          col = color(rCol, gCol, bCol);
+    document.body.style.cursor = 'wait';
+    for (let r = 0; r < rMax; r++) {
+      if (isFullQuality) {
+        // Render asynchronously
+        let i = 0;
+        intervals.push(setInterval(function() {
+          let intervalNum = intervals.length;
+          if (i < iMax) {
+            calculateDrawing(r, i, rMax, iMax);
+            // Update the loading bar
+            if (loadPercent >= 100) {
+              loadPercent = 0;
+            } else {
+              pxVal = i*rMax + r;
+              loadPercent = (100*pxVal/(rMax*iMax)).toFixed(0);
+              if (loadPercent%10 == 0) {
+                loadBarElem.style.width = loadPercent + "%";
+                loadTxt.innerText = "Loading: "+loadPercent+"%";
+              }
+            }
+          } else {
+            // Render the drawing if all pixels have been calculated
+            if (r == rMax-1) {
+              showDrawing();
+            }
+  
+            // Stop loop
+            clearInterval(intervals[intervalNum]);
+          }
+          i++;
+        }, 0));
+      } else {
+        // Render synchronously
+        for (i = 0; i < iMax; i++) {
+          calculateDrawing(r, i, rMax, iMax);
         }
-
-        img.set(r, i, col);
       }
     }
-
-    imageMode(CORNERS);
-    img.updatePixels();
-    image(img, -15, 0, width, height);
-
-    // Change background color
-    //let avgR = rTot/pxNum;
-    //let avgG = gTot/pxNum;
-    //let avgB = bTot/pxNum;
-    //document.body.style.backgroundColor = "rgb("+avgR+","+avgG+","+avgB+")";
-
-    // Increase quality
-    sizeFactor += 0.2;
-
-    drawUI();
+    if (!isFullQuality) {
+      showDrawing();
+    }
   }
 }

@@ -1,25 +1,193 @@
-#sliderBox {
-    position: relative;
-    width: 500px;
-    padding-top: 20px;
-    background-color: rgb(255, 255, 255, 0.75);
-    border-radius: 10px;
-    z-index: 10;
+#topControlsBar {
+    width: 100px;
+    height: 70px;
+    background-color: white;
+    position: absolute;
     margin: 0 auto;
+    left: 0;
+    right: 0;
+    z-index: 10;
 }
 
-#lblBox {
-    font-size: 2.75vh;
-    font-weight: 100;
-    float: left;
+#controlTable {
+    table-layout: fixed;
+    height: 100%; 
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.3);
 }
 
-#sliderArea {
-    margin-top: 0.35vh;
-    vertical-align: middle;
-    float: right;
-    width: 78%;
+#controlTable td{
+    font-size: 17px;
+    text-align: center;
+    min-width: 10%;
+    height: 100%;
+    border: 1px solid rgb(211, 211, 211);
+    border-bottom: 1px solid rgb(75, 75, 75);
+    border-top: none;
 }
+
+#zoom {width: 15%;}
+#quality {width: 20%;}
+#loadingMsg {width: 20%;}
+#buttonBox {width: 40%;}
+
+#ctrlBtnTable {
+    table-layout: fixed;
+    height: 100%; 
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#ctrlBtnTable td{
+    height: 50%;
+    border: none;
+}
+
+.ctrlBtn {
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+	background-color:#ffffff;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	cursor:pointer;
+	color:#666666;
+	font-family:Arial;
+	font-size: 14px;
+	font-weight:bold;
+	text-decoration:none;
+    text-shadow:0px 1px 0px #ffffff;
+    height: 100%;
+    width: 100%;
+    text-align: left;
+}
+.ctrlBtn:hover {
+	background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+	background-color:#f6f6f6;
+}
+.ctrlBtn:active {
+	position:relative;
+	top:1px;
+}
+
+
+#myProgress {
+    margin: 0 auto;
+    width: 90%;
+    border-radius: 10px;
+    background-color: rgb(201, 201, 201);
+}
+  
+#myBar {
+    width: 15%;
+    border-radius: 10px;
+    height: 15px;
+    margin: 4px 0;
+    background-color: rgb(58, 206, 70);
+}
+
+/* The slider CSS*/
+input[type=range] {
+    width: 90%;
+    margin: 4px 0;
+    background-color: transparent;
+    -webkit-appearance: none;
+    box-shadow: none;
+  }
+  input[type=range]:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    background: rgba(200, 200, 200, 0.78);
+    border: none;
+    border-radius: 8.7px;
+    width: 90%;
+    height: 15px;
+    cursor: pointer;
+    box-shadow: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    width: 21px;
+    height: 16px;
+    background: #646464;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    box-shadow: none;
+  }
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #cbcbcb;
+    box-shadow: none;
+  }
+  input[type=range]::-moz-range-track {
+    background: rgba(200, 200, 200, 0.78);
+    border: none;
+    border-radius: 8.7px;
+    width: 90%;
+    height: 15px;
+    cursor: pointer;
+    box-shadow: none;
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 21px;
+    height: 16px;
+    background: #646464;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: none;
+  }
+  input[type=range]::-ms-track {
+    background: transparent;
+    border-color: transparent;
+    border-width: none;
+    color: transparent;
+    width: 90%;
+    height: 15px;
+    cursor: pointer;
+    box-shadow: none;
+  }
+  input[type=range]::-ms-fill-lower {
+    background: #c5c5c5;
+    border: none;
+    border-radius: 17.4px;
+    box-shadow: none;
+  }
+  input[type=range]::-ms-fill-upper {
+    background: rgba(200, 200, 200, 0.78);
+    border: none;
+    border-radius: 17.4px;
+    box-shadow: none;
+  }
+  input[type=range]::-ms-thumb {
+    width: 21px;
+    height: 16px;
+    background: #646464;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 0px;
+    box-shadow: none;
+    /*Needed to keep the Edge thumb centred*/
+  }
+  input[type=range]:focus::-ms-fill-lower {
+    background: rgba(200, 200, 200, 0.78);
+  }
+  input[type=range]:focus::-ms-fill-upper {
+    background: #cbcbcb;
+  }
+  /*TODO: Use one of the selectors from https://stackoverflow.com/a/20541859/7077589 and figure out
+  how to remove the virtical space around the range input in IE*/
+  @supports (-ms-ime-align:auto) {
+    /* Pre-Chromium Edge only styles, selector taken from hhttps://stackoverflow.com/a/32202953/7077589 */
+    input[type=range] {
+      margin: 0;
+      /*Edge starts the margin from the thumb, not the track as other browsers do*/
+    }
+  }
 
 body {
     height: 100%;

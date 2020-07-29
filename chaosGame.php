@@ -8,7 +8,7 @@
     <script src="Sketches/ChaosGame/chaosGame.js"></script>
     <title>Christopher Venczel | Chaos Game</title>
     <meta name="description" 
-    content="Generate fractals using the chaos game method">
+    content="Expirement with generating a variety of geometric fractals using the chaos game algorithm.">
 </head>
 
 <body>

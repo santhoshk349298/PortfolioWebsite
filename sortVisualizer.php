@@ -4,12 +4,11 @@
 <head>
     <?php include 'Includes/headInfo.php';?>
 
-    <link rel="stylesheet" href="CSS/mandelbrot.css">
-    <script src="Sketches/Mandelbrot/mandelbrot.js"></script>
-    <title>Christopher Venczel | Mandelbrot Explorer</title>
+    <link rel="stylesheet" href="CSS/sortVisualizer.css">
+    <script src="Sketches/SortVisualizer/sortVis.js"></script>
+    <title>Christopher Venczel | Sorting Visualizer</title>
     <meta name="description" 
-    content="Explore and save images of the famous Mandelbrot set fractal. 
-    Click and drag to move and scroll to zoom in and take a closer look.">
+    content="">
 </head>
 
 <body>
@@ -67,34 +66,6 @@
             </tr>
         </table>
     </div>
-
-    <!-- The Pop Up -->
-    <div id="popUp">
-        <div id="xRow">
-            <button id="exitPopup">✖️</button>
-        </div>
-        <a id="wikiLink" class="basicLink" target="_blank"
-        href="https://en.wikipedia.org/wiki/Mandelbrot_set">
-        <div id="linkSpacer"></div>
-        <img src="CSS/Images/wikiLogo.png" 
-        alt="wikiLogo" style="width:50px">
-        <span style="text-decoration: underline;">
-        What is the Mandelbrot Set?
-        </span>
-        </a>
-        <span id="instructionsTitle">Instructions:</span>
-        <p>
-        <b>Click and drag</b> on the canvas to <i>move</i> around the Mandelbrot Set.
-        <br><br>Use the <b>scroll wheel</b> to <i>zoom</i> in and out.
-        <br><br>The quality may be changed using the quality slider.
-        To reduce lag the image is rendered at a low quality when you are moving
-        and only renders at the chosen quality once you have stopped moving.
-        <br><br>Other settings can be found near the info button at the top right
-        including options to: save the render as an image, change the color style randomly, 
-        and to reset to the initial position and zoom level. 
-        </p>
-    </div>
-    <div id="popUpOverlay"></div>
 </body>
 
 </html> 

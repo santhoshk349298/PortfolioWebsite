@@ -101,6 +101,7 @@ body {
 
 input[type=range]::-webkit-slider-thumb {
     background: #68caff;
+    margin-top: -4.5px;
 }
 
 input[type=range]::-moz-range-thumb {

@@ -138,6 +138,11 @@ let qualityTxt;
 let currentQuality = 30;
 let sliderBoxW = 500;
 let sliderBoxH = 50;
+let exitPopup;
+let popUpOverlay;
+let popUp;
+let infoBtn;
+let infoOpen = false;
 
 // Check if a button was pressed
 let buttonPressed = false;
@@ -156,13 +161,13 @@ function setup() {
   resetBtn = document.getElementById("resetBtn");
   resetBtn.addEventListener("click", function() {
     resetMandelbrot();
-    draw();
+    redraw();
   });
 
   colBtn = document.getElementById("colBtn");
   colBtn.addEventListener("click", function() {
     randomizeColor();
-    draw();
+    redraw();
   });
 
   saveBtn = document.getElementById("saveBtn");
@@ -200,8 +205,32 @@ function setup() {
     setQuality();
   });
 
+  popUp = document.getElementById("popUp");
+  popUpOverlay = document.getElementById("popUpOverlay");
+  popUpOverlay.addEventListener("click", function() {
+    popUp.style.display = "none";
+    popUpOverlay.style.display = "none";
+    infoOpen = false;
+  });
+  exitPopup = document.getElementById("exitPopup");
+  exitPopup.addEventListener("click", function() {
+    popUp.style.display = "none";
+    popUpOverlay.style.display = "none";
+    infoOpen = false;
+  });
+
+  infoBtn = document.getElementById("infoBtn");
+  infoBtn.addEventListener("click", function() {
+    popUp.style.display = "block";
+    popUpOverlay.style.display = "block";
+    infoOpen = true;
+  });
+
   defaultSetup();
   noLoop();
+
+  // Add the canvas styling
+  cnv.style("box-shadow", "0px 2px 4px 0px rgba(0, 0, 0, 0.3)");
 
   centerR = -0.5;
   centerI = 0;
@@ -281,7 +310,8 @@ function mousePressed() {
     (mouseX < width/2 + sliderBoxW/2) &&
     (mouseY > 0) &&
     (mouseY < sliderBoxH)) &&
-    projectsMenu.style.display == "none") 
+    projectsMenu.style.display == "none" &&
+    !infoOpen) 
   {
     dragged = true;
     clickPoint = createVector(mouseX, mouseY);
@@ -329,7 +359,8 @@ function mouseWheel(event) {
     (mouseX < width) &&
     (mouseY > 0) &&
     (mouseY < height) &&
-    projectsMenu.style.display == "none") 
+    projectsMenu.style.display == "none" &&
+    !infoOpen) 
     {
     // Zoom on scroll
     let zoomIn;

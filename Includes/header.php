@@ -41,11 +41,19 @@
                 Brownian<br>Tree<br>Generator
             </div></a></td></tr>
 
+            <tr onmouseover="setDesc('sortVisualizer')" onmouseout="resetDesc()">
+            <td><a class="noStyleLink" href="sortVisualizer.php">
+            <div class="projLinkBox">
+                Sorting<br>Visualizer
+            </div></a></td></tr>
+
+            <!--
             <tr onmouseover="setDesc('trexGame')" onmouseout="resetDesc()">
             <td><a class="noStyleLink" href="trex.php">
             <div class="projLinkBox">
                 TRex<br>Game
             </div></a></td></tr>
+            -->
         </table>
         <div id="projMenuContent">
             <div id="projMenuBackImg"></div>
@@ -128,7 +136,12 @@
             "Adjust the parameters with the controls located at the bottom of the screen. To see changes click the &#9654; button.";
             imgName = "brownianTree.jpg";
             srcVal = "";
-        }else if(page == "trexGame") {
+        } else if(page == "sortVisualizer") {
+            titleVal = "Sorting Algorithms";
+            descVal = "";
+            imgName = "";
+            srcVal = "";
+        } else if(page == "trexGame") {
             titleVal = "TRex Game";
             descVal = "";
             imgName = "";

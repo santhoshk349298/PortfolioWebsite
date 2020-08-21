@@ -5,6 +5,8 @@
     <?php include 'Includes/headInfo.php';?>
 
     <link rel="stylesheet" href="CSS/sortVisualizer.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="Sketches/SortVisualizer/sortVis.js"></script>
     <title>Christopher Venczel | Sorting Visualizer</title>
     <meta name="description" 
@@ -18,54 +20,64 @@
     <div id="topControlsBar">
         <table id="controlTable">
             <tr>
-            <!-- ZOOM -->
-            <td id="zoom">
-                Zoom:<br>3.2 x 10<sup>21</sup>
+            <!-- ALGORITHM -->
+            <td id="algorithmBox">
+                <div id="algorithmTxt">
+                    Algorithm:
+                </div>
+                <div id="dropdownBox">
+                    Insertion Sort
+                    <div id="arrow">⮛<div>
+                </div>
             </td>
 
-            <!-- QUALITY -->
-            <td id="quality">
-                <div id="qualityTxt">
-                    Quality: Medium
+            <!-- EFFICIENCY -->
+            <td id="efficiencyBox">
+                Time Complexity:<br>\(O(n^2)\)
+            </td>
+
+            <!-- SORT SPEED -->
+            <td id="sortSpeedBox">
+                <div id="speedTxt">
+                    Sort Speed: Fast
                 </div>
-                <input autocomplete="off" type="range" id="qualitySlider" name="quality" min="1" max="4" value="2">
+                <input autocomplete="off" type="range" id="speedSlider" name="quality" min="1" max="4" value="3">
             </td>
 
             <!-- LOADING MSG -->
-            <td id="loadingMsg">
+            <td id="loadBox">
                 <div id="loadText">
-                    Loading: 15%
-                </div>
-                <div id="myProgress">
-                <div id="myBar"></div>
+                    Sorted
                 </div>
             </td>
 
-            <!-- BUTTONS -->
-            <td id="buttonBox">
-                <table id="ctrlBtnTable">
-                    <tr>
-                    <td>
-                    <button id="infoBtn" class="ctrlBtn" type="button">&nbsp;ℹ️&nbsp;&nbsp;info</button> 
-                    </td>
-                    <td>
-                    <button id="resetBtn" class="ctrlBtn" type="button">🔄 reset position</button>
-                    </td>
-                    </tr>
-
-                    <tr>
-                    <td>
-                    <button id="saveBtn" class="ctrlBtn" type="button">💾 save image</button> 
-                    </td>
-                    <td>
-                    <button id="colBtn" class="ctrlBtn" type="button">🎨 new colors</button> 
-                    </td>
-                    </tr>
-                </table >
+            <!-- PLAY BUTTON -->
+            <td id="playBox">
+                <button id="playBtn" class="ctrlBtn" type="button">
+                    &#9654;
+                </button>
             </td>
             </tr>
         </table>
     </div>
+
+    <table id="algOptions">
+        <tr><td>Insertion Sort</td></tr>
+        <tr><td>Selection Sort</td></tr>
+        <tr><td>Bubble Sort</td></tr>
+        <tr><td>Merge Sort</td></tr>
+        <tr><td>Heap Sort</td></tr>
+        <tr><td>Quicksort</td></tr>
+        <tr><td>LSD Base 10 Radix Sort</td></tr>
+        <tr><td>MSD Base 10 Radix Sort</td></tr>
+        <tr><td>LSD Base 2 Radix Sort</td></tr>
+        <tr><td>MSD Base 2 Radix Sort</td></tr>
+    </table>
+
+    <a id="learnMore" class="basicLink" target="_blank"
+    href="https://en.wikipedia.org/wiki/Sorting_algorithm">
+    <b style="text-decoration: initial;">&#9432;</b> Learn More
+    </a>
 </body>
 
 </html> 

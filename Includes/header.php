@@ -12,6 +12,8 @@
     </div>
 </div>
 
+<div id="menuBackground" onclick="hideProjMenu()"></div>
+
 <div id="projectsMenu">
     <div id="projCenterBox">
         <button id="projMenuExit" onclick="hideProjMenu()">&#10799;</button>
@@ -19,25 +21,25 @@
 
             <tr onmouseover="setDesc('mandelbrot')" onmouseout="resetDesc()">
             <td><a class="noStyleLink" href="mandelbrot.php">
-            <div class="projLinkBox">
+            <div class="projLinkBox" id="mandelbrotBox">
                 Mandelbrot<br>Explorer
             </div></a></td></tr>
 
             <tr onmouseover="setDesc('butterflyEffect')" onmouseout="resetDesc()">
             <td><a class="noStyleLink" href="butterflyEffect.php">
-            <div class="projLinkBox">
+            <div class="projLinkBox" id="butterflyBox">
                 The<br>Butterfly<br>Effect
             </div></a></td></tr>
 
             <tr onmouseover="setDesc('chaosGame')" onmouseout="resetDesc()">
             <td><a class="noStyleLink" href="chaosGame.php">
-            <div class="projLinkBox">
+            <div class="projLinkBox" id="chaosGameBox">
                 Chaos<br>Game<br>Fractals
             </div></a></td></tr>
 
             <tr onmouseover="setDesc('brownianTree')" onmouseout="resetDesc()">
             <td><a class="noStyleLink" href="brownianTree.php">
-            <div class="projLinkBox">
+            <div class="projLinkBox" id="brownianTreeBox">
                 Brownian<br>Tree<br>Generator
             </div></a></td></tr>
 
@@ -68,6 +70,7 @@
 </div>
 
 <script>
+    let menuBackground = document.getElementById("menuBackground");
     var menuTable = document.getElementById("projMenuTable");
     var menuItems = menuTable.rows;
 
@@ -82,11 +85,13 @@
     function showProjMenu() {
         resetDesc();
         projMenu.style.display = "block";
+        menuBackground.style.display = "block";
     }
 
     function hideProjMenu() {
         backImg.classList.toggle('fade');
         projMenu.style.display = "none";
+        menuBackground.style.display = "none";
     }
 
     function setDesc(page) {
@@ -165,7 +170,7 @@
 
     function resetDesc() {
         backImg.classList.toggle('fade');
-        title.innerHTML = "Pick a project to the left.";
+        title.innerHTML = "<b style='font-size: 40px;'>←</b> Pick a project.";
         desc.innerHTML = "Hovering will show more details.";
         backImg.style.backgroundImage = "none";
         src.innerHTML = "";

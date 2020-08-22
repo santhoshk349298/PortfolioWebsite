@@ -20,31 +20,31 @@
         <table id="projMenuTable">
 
             <tr onmouseover="setDesc('mandelbrot')" onmouseout="resetDesc()">
-            <td><a class="noStyleLink" href="mandelbrot.php">
+            <td><a class="menuLink" href="mandelbrot.php">
             <div class="projLinkBox" id="mandelbrotBox">
                 Mandelbrot<br>Explorer
             </div></a></td></tr>
 
             <tr onmouseover="setDesc('butterflyEffect')" onmouseout="resetDesc()">
-            <td><a class="noStyleLink" href="butterflyEffect.php">
+            <td><a class="menuLink" href="butterflyEffect.php">
             <div class="projLinkBox" id="butterflyBox">
                 The<br>Butterfly<br>Effect
             </div></a></td></tr>
 
             <tr onmouseover="setDesc('chaosGame')" onmouseout="resetDesc()">
-            <td><a class="noStyleLink" href="chaosGame.php">
+            <td><a class="menuLink" href="chaosGame.php">
             <div class="projLinkBox" id="chaosGameBox">
                 Chaos<br>Game<br>Fractals
             </div></a></td></tr>
 
             <tr onmouseover="setDesc('brownianTree')" onmouseout="resetDesc()">
-            <td><a class="noStyleLink" href="brownianTree.php">
+            <td><a class="menuLink" href="brownianTree.php">
             <div class="projLinkBox" id="brownianTreeBox">
                 Brownian<br>Tree<br>Generator
             </div></a></td></tr>
 
             <tr onmouseover="setDesc('sortVisualizer')" onmouseout="resetDesc()">
-            <td><a class="noStyleLink" href="sortVisualizer.php">
+            <td><a class="menuLink" href="sortVisualizer.php">
             <div class="projLinkBox">
                 Sorting<br>Visualizer
             </div></a></td></tr>
@@ -65,7 +65,6 @@
             </div>
             <span id="projMenuSources"></span>
         </div>
-        <div id="honeycombProjMenu"></div>
     </div>
 </div>
 

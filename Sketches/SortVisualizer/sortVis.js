@@ -111,7 +111,7 @@ let numOfPieces = 100;
 let numList;
 let center;
 
-let stepTime = 10;
+let stepTime = 20;
 
 function setup() {
   // UI
@@ -126,16 +126,16 @@ function setup() {
   speedSlider.addEventListener("input", function() {
     if (speedSlider.value == 1) {
       speedText.innerHTML = "Sort Speed: Slow";
-      stepTime = 50;
+      stepTime = 80;
     } else  if (speedSlider.value == 2) {
       speedText.innerHTML = "Sort Speed: Medium";
-      stepTime = 25;
+      stepTime = 50;
     } else  if (speedSlider.value == 3) {
       speedText.innerHTML = "Sort Speed: Fast";
-      stepTime = 10;
+      stepTime = 20;
     } else  if (speedSlider.value == 4) {
       speedText.innerHTML = "Sort Speed: Max";
-      stepTime = 1;
+      stepTime = 0;
     }
   });
   arrow = document.getElementById("arrow");
@@ -159,7 +159,7 @@ function setup() {
     }
   });
   playBtn = document.getElementById("playBtn");
-  playBtn.addEventListener("click", runNewSort);
+  playBtn.addEventListener("click", shuffleCircle);
   loadTxt = document.getElementById("loadText");
 
   // Add button functionality
@@ -236,17 +236,13 @@ function drawTriangles() {
   point(center.x, center.y);
 }
 
-function runNewSort() {
-  shuffleCircle();
-}
-
-// Recursive Fisher-Yates shuffle
+// Recursive async Fisher-Yates shuffle
 // https://bost.ocks.org/mike/shuffle/
 function shuffleCircle() {
   let m = numList.length;
   let asyncShuffle = setInterval(function() {
     if (m == 0) {
-      loadTxt.innerHTML = "Shuffled";
+      runSort();
       clearInterval(asyncShuffle);
     } else {
       loadTxt.innerHTML = "<i>Shuffling...</i>";
@@ -261,5 +257,115 @@ function shuffleCircle() {
   
       drawTriangles();
     }
+  }, 0);
+}
+
+function runSort() {
+  let sortType = dropdownBox.innerHTML.slice(0, 
+    dropdownBox.innerHTML.indexOf("<")).trim();
+
+  if (sortType == "Insertion Sort") {
+    insertionSort(numList);
+  } else if (sortType == "Selection Sort") {
+    selectionSort(numList);
+  } else if (sortType == "Bubble Sort") {
+    bubbleSort(numList);
+  } else if (sortType == "Merge Sort") {
+    mergeSort(numList);
+  } else if (sortType == "Heap Sort") {
+    
+  } else if (sortType == "Quicksort") {
+    
+  } else if (sortType == "LSD Base 10 Radix Sort") {
+    
+  } else if (sortType == "MSD Base 10 Radix Sort") {
+    
+  } else if (sortType == "LSD Base 2 Radix Sort") {
+    
+  } else if (sortType == "MSD Base 2 Radix Sort") {
+    
+  }
+}
+
+//~~~~ THE SORTING ALGORITHMS ~~~~//
+
+// https://medium.com/dailyjs/insertion-sort-in-javascript-9c077844717a
+function insertionSort(nums) {
+  let i = 0;
+  let asyncInsertionSort = setInterval(function() {
+    if (i >= nums.length) {
+      loadTxt.innerHTML = "Sorted";
+      clearInterval(asyncInsertionSort);
+    } else {
+      loadTxt.innerHTML = "<i>Sorting...</i>";
+
+      let j = i - 1;
+      let tmp = nums[i];
+      while (j >= 0 && nums[j] > tmp) {
+        nums[j + 1] = nums[j];
+        j--;
+      }
+      nums[j+1] = tmp;
+    
+      i++;
+
+      drawTriangles();
+    }
   }, stepTime);
 }
+
+// https://medium.com/javascript-algorithms/javascript-algorithms-selection-sort-54da919d0513
+function selectionSort(arr) {
+  let i = 0;
+  let asyncSelectionSort = setInterval(function() {
+    if (i >= arr.length) {
+      loadTxt.innerHTML = "Sorted";
+      clearInterval(asyncSelectionSort);
+    } else {
+      loadTxt.innerHTML = "<i>Sorting...</i>";
+    
+      let min = i;
+      for (let j = i + 1; j < arr.length; j++) {
+          if (arr[min] > arr[j]) {
+              min = j;
+          }
+      }
+      if (min !== i) {
+          let tmp = arr[i];
+          arr[i] = arr[min];
+          arr[min] = tmp;
+      }
+
+      i++;
+
+      drawTriangles();
+    }
+  }, stepTime);
+}
+
+// https://medium.com/javascript-algorithms/javascript-algorithms-bubble-sort-3d27f285c3b2
+function bubbleSort(inputArr) {
+  let i = 0;
+  let len = inputArr.length;
+  let asyncBubbleSort = setInterval(function() {
+    if (i >= inputArr.length) {
+      loadTxt.innerHTML = "Sorted";
+      clearInterval(asyncBubbleSort);
+    } else {
+      loadTxt.innerHTML = "<i>Sorting...</i>";
+    
+      for (let j = 0; j < len; j++) {
+        if (inputArr[j] > inputArr[j + 1]) {
+            let tmp = inputArr[j];
+            inputArr[j] = inputArr[j + 1];
+            inputArr[j + 1] = tmp;
+        }
+      }
+
+      i++;
+
+      drawTriangles();
+    }
+  }, stepTime);
+}
+

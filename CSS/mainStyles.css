@@ -369,6 +369,7 @@ button::-moz-focus-inner {
     float: left;
     height: 100%;
     width: 30%;
+    position: relative;
     z-index: 101;
     background-color: white;
     filter: drop-shadow(1px 0px 5px rgba(0, 0, 0, 0.11));
@@ -376,7 +377,7 @@ button::-moz-focus-inner {
 }
 
 #projMenuTable td {
-    height: 100px;
+    height: auto;
     border-radius: 0px;
     text-align: center;
     padding: 0;
@@ -448,7 +449,6 @@ button::-moz-focus-inner {
 
 .projLinkBox {
     padding: 50px 0;
-    vertical-align: middle;
     font-weight: 100;
     font-size: medium;
     font-family: 'Rubik Mono One', sans-serif;
@@ -459,7 +459,6 @@ button::-moz-focus-inner {
     background-size: cover; 
     filter: brightness(2) grayscale(80%);
     border: 3px dotted rgb(230, 230, 230);
-    height: 90%;
 }
 
 .projLinkBox:hover {
@@ -483,12 +482,17 @@ button::-moz-focus-inner {
     background-image: url("Images/MenuBackgrounds/Boxes/BrownianTreeBox.png");
 }
 
-.noStyleLink {
+.menuLink {
+    height: 100%;
+    width: 100%;
+    display: inline-block;
     text-decoration: none;
 }
 
-.noStyleLink:hover {
+.menuLink:hover {
     filter: none;
+    transition: none; 
+    transform: none;
 }
   
 

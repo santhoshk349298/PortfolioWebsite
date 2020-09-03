@@ -43,7 +43,7 @@ function windowResized(){
   var canvW = windowWidth;
   var calcW = canvH*(aspectRatioTop/aspectRatioBottom);
 
-  // Maintain 16:9 ratio based off height
+  // Maintain aspect ratio based off height
   if (calcW > canvW){
     // Width is limiting factor
     canvH = canvW/(aspectRatioTop/aspectRatioBottom);
@@ -71,8 +71,15 @@ function windowResized(){
   // Align learnMore with bottom right of the canvas
   learnMore.style.top = cnv.position().y+height-30+"px";
   learnMore.style.left = cnv.position().x+width-110+"px";
+  // Align speaker with bottom left of the canvas
+  speaker.style.top = cnv.position().y+height-40+"px";
+  speaker.style.left = cnv.position().x+15+"px";
 
-  redraw();
+  // Reset center
+  center = createVector((width/2), (height/2));
+  if (numList != null) {
+    drawTriangles(-1);
+  }
 }
 
 function debugOutline() {
@@ -97,6 +104,7 @@ function tooSmallError(){
 // UI
 let topMenu;
 let algOptions;
+let chosenAlg;
 let learnMore;
 let arrow;
 let dropdownBox;
@@ -105,13 +113,40 @@ let speedSlider;
 let speedText;
 let playBtn;
 let loadTxt;
+let speaker;
 
 // The Circle
-let numOfPieces = 100;
+let numOfPieces = 165; // 150
 let numList;
 let center;
 
-let stepTime = 20;
+let asyncIntervals = [];
+let asyncTimeouts = [];
+let stepTime;
+
+let soundEffect;
+let muted = false;
+
+function preload() {
+  // Load in sounds
+  soundEffect = loadSound("Sketches/SortVisualizer/soundEffect.wav");
+}
+
+function speedSliderRun() {
+  if (speedSlider.value == 1) {
+    speedText.innerHTML = "Sort Speed: Slow";
+    stepTime = 90;
+  } else  if (speedSlider.value == 2) {
+    speedText.innerHTML = "Sort Speed: Medium";
+    stepTime = 50;
+  } else  if (speedSlider.value == 3) {
+    speedText.innerHTML = "Sort Speed: Fast";
+    stepTime = 20;
+  } else  if (speedSlider.value == 4) {
+    speedText.innerHTML = "Sort Speed: Max";
+    stepTime = 0;
+  }
+}
 
 function setup() {
   // UI
@@ -120,24 +155,12 @@ function setup() {
   algOptions.style.display = "none";
   learnMore = document.getElementById("learnMore");
   dropdownBox = document.getElementById("dropdownBox");
+  chosenAlg = document.getElementById("chosenAlg");
   efficiencyBox = document.getElementById("efficiencyBox");
   speedSlider = document.getElementById("speedSlider");
   speedText =  document.getElementById("speedTxt");
-  speedSlider.addEventListener("input", function() {
-    if (speedSlider.value == 1) {
-      speedText.innerHTML = "Sort Speed: Slow";
-      stepTime = 80;
-    } else  if (speedSlider.value == 2) {
-      speedText.innerHTML = "Sort Speed: Medium";
-      stepTime = 50;
-    } else  if (speedSlider.value == 3) {
-      speedText.innerHTML = "Sort Speed: Fast";
-      stepTime = 20;
-    } else  if (speedSlider.value == 4) {
-      speedText.innerHTML = "Sort Speed: Max";
-      stepTime = 0;
-    }
-  });
+  speedSliderRun();
+  speedSlider.addEventListener("input", speedSliderRun);
   arrow = document.getElementById("arrow");
   window.addEventListener("mouseup", function() {
     if (algOptions.style.display != "none" 
@@ -161,12 +184,23 @@ function setup() {
   playBtn = document.getElementById("playBtn");
   playBtn.addEventListener("click", shuffleCircle);
   loadTxt = document.getElementById("loadText");
+  speaker = document.getElementsByClassName("speaker")[0];
+  speaker.addEventListener("click", function(){
+    if (speaker.classList.contains("mute")) {
+      muted = false;
+      speaker.classList.remove("mute");
+    } else {
+      muted = true;
+      speaker.classList.add("mute");
+    }
+  });
 
   // Add button functionality
   for (let i = 0; i < algOptions.rows.length; i++) {
     let btn = algOptions.rows[i].cells[0];
     btn.addEventListener("click", function() {
-      dropdownBox.innerHTML = btn.innerText+"<div id='arrow'>⮛<div>";
+      chosenAlg.innerText = btn.innerText;
+      arrow.innerHTML = "⮛";
       algOptions.style.display = "none";
       if (btn.innerText == "Insertion Sort") {
         efficiencyBox.innerHTML = "Time Complexity:<br>\\(O(n^2)\\)";
@@ -189,7 +223,7 @@ function setup() {
       } else if (btn.innerText == "MSD Base 2 Radix Sort") {
         efficiencyBox.innerHTML = "Time Complexity:<br>\\(O(wn)\\)";
       }
-      // Make equations look nice again
+      // Make equations look nice
       MathJax.typeset();
     });
   }
@@ -200,18 +234,24 @@ function setup() {
   // Add the canvas styling
   cnv.style("box-shadow", "0px 2px 4px 0px rgba(0, 0, 0, 0.3)");
 
-  center = createVector((width/2), (height/2));
-
   // Initialize the number list
   numList = [];
   for (let i = 0; i < numOfPieces; i++) {
     numList.push(i);
   }
 
-  drawTriangles();
+  drawTriangles(-1);
 }
 
-function drawTriangles() {
+// The update function (redraws the circle/triangle slices)
+function drawTriangles(current, circleArray) {
+  if (circleArray == undefined) {
+    circleArray = numList;
+  }
+  
+  if (current != -1) {
+    playSound(current);
+  }
   clear();
 
   // Draw the triangles
@@ -219,9 +259,12 @@ function drawTriangles() {
   for (let i = 0; i < numOfPieces; i++) {
     push();
     strokeWeight(0.5);
-    stroke(i, 100, 100);
-    fill(i, 100, 100);
-    let h = map(abs(numList[i]-i), 0, numOfPieces, height/2.3, 1);
+    stroke(circleArray[i], numOfPieces-10, numOfPieces);
+    fill(circleArray[i], numOfPieces-10, numOfPieces);
+    if (i == current) {
+      fill(0, 0, 0);
+    }
+    let h = map(abs(circleArray[i]-i), 0, numOfPieces, height/2.3, 1);
     let xPos = h*tan((TWO_PI/numOfPieces)/2);
     translate(center.x, center.y);
     rotate(i*(TWO_PI/numOfPieces));
@@ -236,14 +279,17 @@ function drawTriangles() {
   point(center.x, center.y);
 }
 
-// Recursive async Fisher-Yates shuffle
+// Recursive asynchronous Fisher-Yates shuffle
 // https://bost.ocks.org/mike/shuffle/
 function shuffleCircle() {
+  clearAllIntervals();
   let m = numList.length;
-  let asyncShuffle = setInterval(function() {
+  asyncIntervals.push(setInterval(function() {
+    let intervalNum = asyncIntervals.length;
     if (m == 0) {
+      drawTriangles(-1);
       runSort();
-      clearInterval(asyncShuffle);
+      clearInterval(asyncIntervals[intervalNum-1]);
     } else {
       loadTxt.innerHTML = "<i>Shuffling...</i>";
 
@@ -255,14 +301,14 @@ function shuffleCircle() {
       numList[m] = numList[i];
       numList[i] = t;
   
-      drawTriangles();
+      drawTriangles(-1);    
     }
-  }, 0);
+  }, 0));
 }
 
+// Run the sorting algorithm that is selected in the dropdown
 function runSort() {
-  let sortType = dropdownBox.innerHTML.slice(0, 
-    dropdownBox.innerHTML.indexOf("<")).trim();
+  let sortType = chosenAlg.innerText;
 
   if (sortType == "Insertion Sort") {
     insertionSort(numList);
@@ -287,15 +333,34 @@ function runSort() {
   }
 }
 
+function clearAllIntervals() {
+  while (asyncIntervals.length > 0) {
+    clearInterval(asyncIntervals.pop());
+  }
+
+  while (asyncTimeouts.length > 0) {
+    clearTimeout(asyncTimeouts.pop());
+  }
+}
+
+function playSound(i) {
+  if (!muted) {
+    soundEffect.rate(map(i, 0, numList.length, 0.5, 2));
+    soundEffect.play();
+  }
+}
+
 //~~~~ THE SORTING ALGORITHMS ~~~~//
 
 // https://medium.com/dailyjs/insertion-sort-in-javascript-9c077844717a
 function insertionSort(nums) {
   let i = 0;
-  let asyncInsertionSort = setInterval(function() {
+  asyncIntervals.push(setInterval(function() {
+    let intervalNum = asyncIntervals.length;
     if (i >= nums.length) {
+      drawTriangles(-1);
       loadTxt.innerHTML = "Sorted";
-      clearInterval(asyncInsertionSort);
+      clearInterval(asyncIntervals[intervalNum-1]);
     } else {
       loadTxt.innerHTML = "<i>Sorting...</i>";
 
@@ -309,18 +374,20 @@ function insertionSort(nums) {
     
       i++;
 
-      drawTriangles();
+      drawTriangles(j);
     }
-  }, stepTime);
+  }, stepTime));
 }
 
 // https://medium.com/javascript-algorithms/javascript-algorithms-selection-sort-54da919d0513
 function selectionSort(arr) {
   let i = 0;
-  let asyncSelectionSort = setInterval(function() {
+  asyncIntervals.push(setInterval(function() {
+    let intervalNum = asyncIntervals.length;
     if (i >= arr.length) {
+      drawTriangles(-1);
       loadTxt.innerHTML = "Sorted";
-      clearInterval(asyncSelectionSort);
+      clearInterval(asyncIntervals[intervalNum-1]);
     } else {
       loadTxt.innerHTML = "<i>Sorting...</i>";
     
@@ -338,19 +405,21 @@ function selectionSort(arr) {
 
       i++;
 
-      drawTriangles();
+      drawTriangles(min);
     }
-  }, stepTime);
+  }, stepTime));
 }
 
 // https://medium.com/javascript-algorithms/javascript-algorithms-bubble-sort-3d27f285c3b2
 function bubbleSort(inputArr) {
   let i = 0;
   let len = inputArr.length;
-  let asyncBubbleSort = setInterval(function() {
+  asyncIntervals.push(setInterval(function() {
+    let intervalNum = asyncIntervals.length;
     if (i >= inputArr.length) {
+      drawTriangles(-1);
       loadTxt.innerHTML = "Sorted";
-      clearInterval(asyncBubbleSort);
+      clearInterval(asyncIntervals[intervalNum-1]);
     } else {
       loadTxt.innerHTML = "<i>Sorting...</i>";
     
@@ -363,9 +432,139 @@ function bubbleSort(inputArr) {
       }
 
       i++;
-
-      drawTriangles();
+      drawTriangles(i);
     }
-  }, stepTime);
+  }, stepTime));
 }
+
+// https://www.geeksforgeeks.org/iterative-merge-sort/
+// Iterative (non-recursive) Merge Sort
+function mergeSort(arr) {
+  // The size of the merge sections
+  // Varies from 1 - n/2
+  //let currentSize;
+  let n = arr.length-1;
+
+  let currentSize = 1;
+  asyncIntervals.push(setInterval(function() {
+    let intervalNum = asyncIntervals.length;
+    if (currentSize > n) {
+      // Algorithm complete
+      drawTriangles(-1);
+      loadTxt.innerHTML = "Sorted";
+      clearInterval(asyncIntervals[intervalNum-1]);
+    } else {
+      loadTxt.innerHTML = "<i>Sorting...</i>";
+    
+      // Algorithm
+
+      // Pick starting point of different 
+      // subarrays of current size 
+      for (let left = 0; left < n; left += 2*currentSize) { 
+        // Find ending point of left  
+        // subarray. mid+1 is starting  
+        // point of right 
+        let mid = Math.min(left + currentSize - 1, n); 
+
+        let right = Math.min(left + 2*currentSize - 1, n); 
+
+        // Merge Subarrays arr[left...mid] & arr[mid+1...right] 
+        merge(arr, left, mid, right); 
+      }
+      drawTriangles(-1);
+      currentSize = 2*currentSize;
+    }
+  }, stepTime));
+
+  // Merge subarrays in bottom up  
+  // manner. First merge subarrays  
+  // of size 1 to create sorted  
+  // subarrays of size 2, then merge 
+  // subarrays of size 2 to create  
+  // sorted subarrays of size 4, and so on. 
+  /*for (currentSize = 1; currentSize <= n; currentSize = 2*currentSize) { 
+    // Pick starting point of different 
+    // subarrays of current size 
+    for (let left = 0; left < n; left += 2*currentSize) { 
+        // Find ending point of left  
+        // subarray. mid+1 is starting  
+        // point of right 
+        let mid = Math.min(left + currentSize - 1, n); 
+
+        let right = Math.min(left + 2*currentSize - 1, n); 
+
+        // Merge Subarrays arr[left...mid] & arr[mid+1...right] 
+        merge(arr, left, mid, right); 
+    }
+  } */
+}
+
+// Function to merge the two haves arr[l..m] and 
+// arr[m+1..r] of array arr[]
+function merge(arr, l, m, r) { 
+  let i, j, k;
+  let n1 = m - l + 1; 
+  let n2 = r - m; 
+
+  // Create temp arrays
+  let L = new Array(n1); 
+  let R = new Array(n2); 
+
+  // Copy data to temp arrays L and R
+  for (i = 0; i < n1; i++)  {
+    L[i] = arr[l + i]; 
+  }   
+  for (j = 0; j < n2; j++) {
+    R[j] = arr[m + 1+ j]; 
+  }
+      
+  // Merge the temp arrays back into arr[l..r]
+  i = 0; 
+  j = 0; 
+  k = l; 
+  while (i < n1 && j < n2) { 
+    if (L[i] <= R[j]) { 
+      arr[k] = L[i]; 
+      i++; 
+    } else { 
+      arr[k] = R[j]; 
+      j++; 
+    } 
+    k++;
+  } 
+
+  // Copy the remaining elements of L, if there are any
+  while (i < n1) { 
+    arr[k] = L[i]; 
+    i++; 
+    k++; 
+  } 
+
+  // Copy the remaining elements of R, if there are any
+  while (j < n2) { 
+    arr[k] = R[j]; 
+    j++; 
+    k++; 
+  } 
+} 
+
+/* THE FRAME CODE FOR THE ASYNC ALGORITHMS
+let i = 0;
+asyncIntervals.push(setInterval(function() {
+  let intervalNum = asyncIntervals.length;
+  if (i >= inputArr.length) {
+    // Algorithm complete
+    drawTriangles(-1);
+    loadTxt.innerHTML = "Sorted";
+    clearInterval(asyncIntervals[intervalNum-1]);
+  } else {
+    loadTxt.innerHTML = "<i>Sorting...</i>";
+  
+    // Algorithm
+
+    i++;
+    drawTriangles(i);
+  }
+}, stepTime));
+*/
 

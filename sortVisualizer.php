@@ -26,7 +26,7 @@
                     Algorithm:
                 </div>
                 <div id="dropdownBox">
-                    Insertion Sort
+                    <span id="chosenAlg">Insertion Sort</span>
                     <div id="arrow">⮛<div>
                 </div>
             </td>
@@ -39,9 +39,9 @@
             <!-- SORT SPEED -->
             <td id="sortSpeedBox">
                 <div id="speedTxt">
-                    Sort Speed: Fast
+                    Sort Speed: Medium
                 </div>
-                <input autocomplete="off" type="range" id="speedSlider" name="quality" min="1" max="4" value="3">
+                <input autocomplete="off" type="range" id="speedSlider" name="quality" min="1" max="4" value="2">
             </td>
 
             <!-- LOADING MSG -->
@@ -77,6 +77,10 @@
     <a id="learnMore" class="basicLink" target="_blank"
     href="https://en.wikipedia.org/wiki/Sorting_algorithm">
     <b style="text-decoration: initial;">&#9432;</b> Learn More
+    </a>
+
+    <a href="#" class="speaker">
+    <span></span>
     </a>
 </body>
 

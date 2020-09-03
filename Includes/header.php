@@ -48,14 +48,6 @@
             <div class="projLinkBox">
                 Sorting<br>Visualizer
             </div></a></td></tr>
-
-            <!--
-            <tr onmouseover="setDesc('trexGame')" onmouseout="resetDesc()">
-            <td><a class="noStyleLink" href="trex.php">
-            <div class="projLinkBox">
-                TRex<br>Game
-            </div></a></td></tr>
-            -->
         </table>
         <div id="projMenuContent">
             <div id="projMenuBackImg"></div>
@@ -141,8 +133,11 @@
             imgName = "brownianTree.jpg";
             srcVal = "";
         } else if(page == "sortVisualizer") {
-            titleVal = "Sorting Algorithms";
-            descVal = "";
+            titleVal = "Sorting Algorithms!";
+            descVal = "Hear and see 20 different <b>sorting algorithms</b> in action with this colorful sorting visualizer." +
+            "<br><br><b>Instructions:</b><br>" +
+            "Change the algorithm and sort speed in the top menu. Click ▶ to run the sort with the current settings." +
+            "The audio toggle is located at the bottom left.";
             imgName = "";
             srcVal = "";
         } else if(page == "trexGame") {

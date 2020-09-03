@@ -43,7 +43,7 @@ function windowResized(){
   var canvW = windowWidth;
   var calcW = canvH*(aspectRatioTop/aspectRatioBottom);
 
-  // Maintain 16:9 ratio based off height
+  // Maintain aspect ratio based off height
   if (calcW > canvW){
     // Width is limiting factor
     canvH = canvW/(aspectRatioTop/aspectRatioBottom);

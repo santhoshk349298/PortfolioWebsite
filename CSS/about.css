@@ -11,29 +11,46 @@
     /*text-align: center;*/
     top: 0;
     font-size: x-large;
+    font-size: 3vh;
     background-color: white;
-    line-height: 40px;
+    line-height: 4.5vh;
 }
 
 #mePic {
     border-radius: 50%;
     border: 0px solid black;
-    width: 220px;
-    height: 220px;
+    width: 25vh;
+    height: 25vh;
+    min-width: 100px;
+    min-height: 100px;
     float: right;
     display: block;
-    margin: 10px;
+    margin: 20px;
     background-image: url("Images/profilepic.png");
     background-size: cover;
     background-repeat: no-repeat;
-    filter: grayscale(100%) brightness(1.25) drop-shadow(0px 2px 1px black);
+    /*filter: grayscale(100%) brightness(1.25) drop-shadow(0px 2px 1px black);
+    */
+    filter: drop-shadow(0px 2px 1px black);
 }
 
 #p1 {
-    
+      -webkit-touch-callout: text; /* iOS Safari */
+    -webkit-user-select: text; /* Safari */
+     -khtml-user-select: text; /* Konqueror HTML */
+       -moz-user-select: text; /* Old versions of Firefox */
+        -ms-user-select: text; /* Internet Explorer/Edge */
+            user-select: text; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
 
 #p2 {
     display: block;
     float: left;
+    -webkit-touch-callout: text; /* iOS Safari */
+    -webkit-user-select: text; /* Safari */
+     -khtml-user-select: text; /* Konqueror HTML */
+       -moz-user-select: text; /* Old versions of Firefox */
+        -ms-user-select: text; /* Internet Explorer/Edge */
+            user-select: text; /* Non-prefixed version, currently
 }

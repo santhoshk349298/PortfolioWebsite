@@ -3,7 +3,7 @@
 
 <head>
     <?php include 'Includes/headInfo.php';?>
-
+    <div id="p5_loading" class="loadingclass"></div>
     <link rel="stylesheet" href="CSS/chaosGame.css">
     <script src="Sketches/ChaosGame/chaosGame.js"></script>
     <title>Christopher Venczel | Chaos Game</title>

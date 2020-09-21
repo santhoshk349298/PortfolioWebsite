@@ -3,7 +3,7 @@
 
 <head>
     <?php include 'Includes/headInfo.php';?>
-
+    <div id="p5_loading" class="loadingclass"></div>
     <link rel="stylesheet" href="CSS/mobileProjects.css">
     <title>Christopher Venczel | Projects</title>
 </head>

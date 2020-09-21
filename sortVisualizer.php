@@ -5,8 +5,8 @@
     <?php include 'Includes/headInfo.php';?>
 
     <link rel="stylesheet" href="CSS/sortVisualizer.css">
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script id="MathJax-script" async src="Sketches/SortVisualizer/mathjax.js"></script>
+    <!--<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>-->
     <script src="Sketches/SortVisualizer/sortVis.js"></script>
     <title>Christopher Venczel | Sorting Visualizer</title>
     <meta name="description" 
@@ -66,12 +66,13 @@
         <tr><td>Selection Sort</td></tr>
         <tr><td>Bubble Sort</td></tr>
         <tr><td>Merge Sort</td></tr>
-        <tr><td>Heap Sort</td></tr>
+        <tr><td>Max Heap Sort</td></tr>
         <tr><td>Quicksort</td></tr>
-        <tr><td>LSD Base 10 Radix Sort</td></tr>
-        <tr><td>MSD Base 10 Radix Sort</td></tr>
+        <tr><td>Odd-Even Sort</td></tr>
+        <tr><td>Comb Sort</td></tr>
+        <tr><td>Cocktail Shaker Sort</td></tr>
         <tr><td>LSD Base 2 Radix Sort</td></tr>
-        <tr><td>MSD Base 2 Radix Sort</td></tr>
+        <tr><td>MSD Base 10 Radix Sort</td></tr>
     </table>
 
     <a id="learnMore" class="basicLink" target="_blank"

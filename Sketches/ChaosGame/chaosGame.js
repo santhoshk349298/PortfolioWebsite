@@ -53,7 +53,7 @@ function windowResized(){
   }
 
   // Set the "too small" flag
-  if (canvW < 200){
+  if (canvW < 0){
     tooSmall = true;
   } else {
     tooSmall = false;

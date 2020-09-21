@@ -3,6 +3,7 @@
     --darkAccent: #003049;
     --brightAccent: #f77f00;
     --lightAccent: #fcbf49;
+    --lightBlue: #1285c4;
     --red: #d62828;
     --headerHeight: 125px;
     --footerHeight: 30px;
@@ -25,11 +26,15 @@ body {
             user-select: none;
 }
 
+::-moz-selection { background: rgb(255, 226, 132) }
+::selection { background: rgb(255, 226, 132) }
+
 #menuZone {
     display: table-row;
     table-layout: fixed;
     font-weight: 700;
     font-size: 15px;
+    font-size: 1rem;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -70,6 +75,7 @@ a.menu:link {
 
 .basicLink:hover {
     filter: none;
+    color: var(--lightBlue);
 }
 
 a:hover {
@@ -355,6 +361,19 @@ button::-moz-focus-inner {
     z-index: 101;
 }
 
+#projMenuScroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    width: 30%;
+    float: left;
+    scrollbar-color: light;
+    scrollbar-width: thin;
+    position: relative;
+    padding-right: 5px;
+    z-index: 101;
+}
+
 #projMenuContent {
     position: absolute;
     top: 0;
@@ -366,11 +385,8 @@ button::-moz-focus-inner {
 }
 
 #projMenuTable {
-    float: left;
     height: 100%;
-    width: 30%;
-    position: relative;
-    z-index: 101;
+    width: 100%; 
     background-color: white;
     filter: drop-shadow(1px 0px 5px rgba(0, 0, 0, 0.11));
     border-collapse: collapse;
@@ -428,23 +444,25 @@ button::-moz-focus-inner {
 #projMenuTitle {
     padding: 0px 10px 0px 10px;
     display: inline-block;
-    font-size: 200%;
+    font-size: 3.5vmin;
     text-align: center;
     border-radius: 5px;
     font-weight: 800;
     -webkit-text-stroke: 1px white;
     background-color: rgba(255, 255, 255, 0.9);
-    border: 3px solid white;
+    border: 2px solid white;
 }
 
 #projMenuDescription {
     font-size: x-large;
+    font-size: 2.75vmin;
     text-align: center;
     padding: 10px 10px 10px 10px;
     line-height: 30px;
+    line-height: 3.5vmin;
     border-radius: 25px;
     background-color: rgba(255, 255, 255, 0.75);
-    border: 3px solid white;
+    border: 1px solid white;
 }
 
 .projLinkBox {
@@ -483,6 +501,9 @@ button::-moz-focus-inner {
 }
 #brownianTreeBox {
     background-image: url("Images/MenuBackgrounds/Boxes/BrownianTreeBox.png");
+}
+#sortingVisualizerBox {
+    background-image: url("Images/MenuBackgrounds/Boxes/SortVizBox.png");
 }
 
 .menuLink {

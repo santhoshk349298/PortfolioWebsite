@@ -3,7 +3,7 @@
 
 <head>
     <?php include 'Includes/headInfo.php';?>
-
+    <div id="p5_loading" class="loadingclass"></div>
     <script src="Sketches/ButterflyEffect/pendulums.js"></script>
     <link rel="stylesheet" href="CSS/butterfly.css">
     <title>Christopher Venczel | The Butterfly Effect</title>

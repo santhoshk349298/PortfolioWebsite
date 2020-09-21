@@ -3,7 +3,7 @@
 
 <head>
     <?php include 'Includes/headInfo.php';?>
-
+    <div id="p5_loading" class="loadingclass"></div>
     <link rel="stylesheet" href="CSS/contact.css">
     <title>Christopher Venczel | Contact Me</title>
     <meta name="description" 

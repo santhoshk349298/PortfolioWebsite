@@ -23,8 +23,8 @@ function defaultSetup() {
   tooSmall = false;
 
   // 16:9 aspect ratio
-  aspectRatioTop = 16;
-  aspectRatioBottom = 9;
+  aspectRatioTop = 1;
+  aspectRatioBottom = 1;
   cnv = createCanvas(10, 10);
   windowResized();
 
@@ -43,7 +43,7 @@ function windowResized(){
   var canvW = windowWidth;
   var calcW = canvH*(aspectRatioTop/aspectRatioBottom);
 
-  // Maintain 16:9 ratio based off height
+  // Maintain aspect ratio based off height
   if (calcW > canvW){
     // Width is limiting factor
     canvH = canvW/(aspectRatioTop/aspectRatioBottom);
@@ -86,47 +86,33 @@ function tooSmallError(){
 
 /*---------------START----------------*/
 
-let num; // The number being visualized
-let digCols = []; // Colors of digits 1-9 (Make in binary and other later!)
-let sliderDen;
-
 function setup() {
   defaultSetup();
 
-  for (let i = 0; i < 10; i++) {
-    digCols[i] = [random(255), random(255), random(255)];
-  }
-
-  //sliderDen = createSlider(1, 20, 7);
+  textSize(32);
+  strokeWeight(0);
+  fill(0);
+  textAlign(CENTER);
+  doWork();
+  //debugOutline();
 }
 
-function renderColor() {
-  let colWidth = width/num.length;
-  for (let i = 0; i < num.length; i++) {
-    // Get the color of the rectangle
-    let r = digCols[num[i]][0];
-    let g = digCols[num[i]][1];
-    let b = digCols[num[i]][2];
-    fill(r, g, b);
-    strokeWeight(0);
-    rect(i*colWidth, 0, colWidth+1, height);
-    fill(0);
-    textSize(25);
-    stroke(255);
-    strokeWeight(2);
-    text(num[i], (i*colWidth)+(colWidth/2), height/2);
+function drawText(i) {
+  return new Promise((resolve) => {
+    setTimeout(function() {
+      clear();
+      text(i, width/2, height/4);
+      resolve();
+    }, 10);
+  });
+}
+
+async function doWork() {
+  for (let i = 1; i <= 100; i++) { 
+    await drawText(i);
   }
 }
 
-function draw() {
-  if (tooSmall) {
-    tooSmallError();
-  } else {
-    Decimal.precision = 120;
-    num = Decimal.div(Math.PI, 1);
-    num = num.toString().slice(2);
-    renderColor();
-    
-    debugOutline();
-  }
-}
+
+
+

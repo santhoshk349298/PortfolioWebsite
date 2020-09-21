@@ -53,7 +53,7 @@ function windowResized(){
   }
 
   // Set the "too small" flag
-  if (canvW < 400){
+  if (canvW < 100){
     tooSmall = true;
   } else {
     tooSmall = false;
@@ -162,11 +162,11 @@ class Ball {
   
     if (showPendulum) {
       stroke(255);
-      strokeWeight(3);
+      strokeWeight(width/225);
       line(this.px, this.py, this.x, this.y);
   
       fill(0, 100, 100);
-      strokeWeight(2);
+      strokeWeight(width/200);
       ellipse(this.x, this.y, this.r, this.r);
     }
 

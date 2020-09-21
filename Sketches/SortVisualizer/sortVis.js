@@ -1,3 +1,11 @@
+/* 
+This project was inspired by the 'w0rthy' youtube channel
+which features many cool sorting algorithm visualizations.
+Specifically it is inspired by the 'Disparity Circle' visualizer
+video which can be found here:
+https://www.youtube.com/watch?v=R2eNWPYgeos 
+*/
+
 var header;
 var footer;
 var cnv;
@@ -43,20 +51,13 @@ function windowResized(){
   var canvW = windowWidth;
   var calcW = canvH*(aspectRatioTop/aspectRatioBottom);
 
-  // Maintain aspect ratio based off height
+  // Maletain aspect ratio based off height
   if (calcW > canvW){
     // Width is limiting factor
     canvH = canvW/(aspectRatioTop/aspectRatioBottom);
   } else {
     // Height is limiting factor
     canvW = canvH*(aspectRatioTop/aspectRatioBottom);
-  }
-
-  // Set the "too small" flag
-  if (canvW < 100){
-    tooSmall = true;
-  } else {
-    tooSmall = false;
   }
 
   resizeCanvas(canvW, canvH);
@@ -210,17 +211,19 @@ function setup() {
         efficiencyBox.innerHTML = "Time Complexity:<br>\\(O(n^2)\\)";
       } else if (btn.innerText == "Merge Sort") {
         efficiencyBox.innerHTML = "Time Complexity:<br>\\(O(n\\log n)\\)";
-      } else if (btn.innerText == "Heap Sort") {
+      } else if (btn.innerText == "Max Heap Sort") {
         efficiencyBox.innerHTML = "Time Complexity:<br>\\(O(n\\log n)\\)";
       } else if (btn.innerText == "Quicksort") {
         efficiencyBox.innerHTML = "Time Complexity:<br>\\(O(n^2)\\)";
-      } else if (btn.innerText == "LSD Base 10 Radix Sort") {
-        efficiencyBox.innerHTML = "Time Complexity:<br>\\(O(wn)\\)";
-      } else if (btn.innerText == "MSD Base 10 Radix Sort") {
-        efficiencyBox.innerHTML = "Time Complexity:<br>\\(O(wn)\\)";
+      } else if (btn.innerText == "Odd-Even Sort") {
+        efficiencyBox.innerHTML = "Time Complexity:<br>\\(O(n^2)\\)";
+      } else if (btn.innerText == "Comb Sort") {
+        efficiencyBox.innerHTML = "Time Complexity:<br>\\(O(n^2)\\)";
+      }  else if (btn.innerText == "Cocktail Shaker Sort") {
+        efficiencyBox.innerHTML = "Time Complexity:<br>\\(O(n^2)\\)";
       } else if (btn.innerText == "LSD Base 2 Radix Sort") {
         efficiencyBox.innerHTML = "Time Complexity:<br>\\(O(wn)\\)";
-      } else if (btn.innerText == "MSD Base 2 Radix Sort") {
+      } else if (btn.innerText == "MSD Base 10 Radix Sort") {
         efficiencyBox.innerHTML = "Time Complexity:<br>\\(O(wn)\\)";
       }
       // Make equations look nice
@@ -234,103 +237,127 @@ function setup() {
   // Add the canvas styling
   cnv.style("box-shadow", "0px 2px 4px 0px rgba(0, 0, 0, 0.3)");
 
-  // Initialize the number list
-  numList = [];
-  for (let i = 0; i < numOfPieces; i++) {
-    numList.push(i);
-  }
+  initNumList();
 
   drawTriangles(-1);
 }
 
+// Initialize number list
+function initNumList() {
+  numList = [];
+  for (let i = 0; i < numOfPieces; i++) {
+    numList.push(i);
+  }
+}
+
 // The update function (redraws the circle/triangle slices)
 function drawTriangles(current, circleArray) {
-  if (circleArray == undefined) {
-    circleArray = numList;
+  let speedMS = stepTime;
+  if (current == -2) {
+    // Run at max speed (for shuffle)
+    speedMS = 0;
   }
-  
-  if (current != -1) {
-    playSound(current);
-  }
-  clear();
 
-  // Draw the triangles
-  colorMode(HSB, numOfPieces);
-  for (let i = 0; i < numOfPieces; i++) {
-    push();
-    strokeWeight(0.5);
-    stroke(circleArray[i], numOfPieces-10, numOfPieces);
-    fill(circleArray[i], numOfPieces-10, numOfPieces);
-    if (i == current) {
-      fill(0, 0, 0);
-    }
-    let h = map(abs(circleArray[i]-i), 0, numOfPieces, height/2.3, 1);
-    let xPos = h*tan((TWO_PI/numOfPieces)/2);
-    translate(center.x, center.y);
-    rotate(i*(TWO_PI/numOfPieces));
-    triangle(0, 0, -xPos, -h, xPos, -h);
-    pop();
-  }
-  colorMode(RGB);
+  return new Promise((resolve) => {
+    asyncTimeouts.push(setTimeout(function() {
+      if (circleArray == undefined) {
+        circleArray = numList;
+      }
+      
+      if (current >= 0) {
+        playSound(current);
+      }
 
-  // Middle dot
-  fill(black);
-  strokeWeight(10);
-  point(center.x, center.y);
+      clear();
+    
+      // Draw the triangles
+      colorMode(HSB, numOfPieces);
+      for (let i = 0; i < numOfPieces; i++) {
+        push();
+        strokeWeight(0.5);
+        stroke(circleArray[i], numOfPieces-10, numOfPieces);
+        fill(circleArray[i], numOfPieces-10, numOfPieces);
+        if (i == current) {
+          fill(0, 0, 0);
+        }
+        let h = map(abs(circleArray[i]-i), 0, numOfPieces, height/2.3, 1);
+        let xPos = h*tan((TWO_PI/numOfPieces)/2);
+        translate(center.x, center.y);
+        rotate(i*(TWO_PI/numOfPieces));
+        triangle(0, 0, -xPos, -h, xPos, -h);
+        pop();
+      }
+      colorMode(RGB);
+    
+      // Middle dot
+      fill(black);
+      strokeWeight(width/80);
+      point(center.x, center.y);
+
+      resolve();
+    }, speedMS));
+  });
 }
 
 // Recursive asynchronous Fisher-Yates shuffle
 // https://bost.ocks.org/mike/shuffle/
-function shuffleCircle() {
+async function shuffleCircle() {
   clearAllIntervals();
+  initNumList();
   let m = numList.length;
-  asyncIntervals.push(setInterval(function() {
-    let intervalNum = asyncIntervals.length;
-    if (m == 0) {
-      drawTriangles(-1);
-      runSort();
-      clearInterval(asyncIntervals[intervalNum-1]);
-    } else {
-      loadTxt.innerHTML = "<i>Shuffling...</i>";
+  loadTxt.innerHTML = "<i>Shuffling...</i>";
 
-      // Pick a remaining element…
-      let i = Math.floor(Math.random()*m--);
-  
-      // And swap it with the current element.
-      let t = numList[m];
-      numList[m] = numList[i];
-      numList[i] = t;
-  
-      drawTriangles(-1);    
-    }
-  }, 0));
+  let showPerFrames = 5;
+
+  // While there remain elements to shuffle...
+  while (m) {
+    // Pick a remaining element…
+    let i = Math.floor(Math.random()*m--);
+
+    // And swap it with the current element.
+    let t = numList[m];
+    numList[m] = numList[i];
+    numList[i] = t;
+
+    if (m % showPerFrames == 0) {
+      await drawTriangles(-2); 
+    } 
+  }   
+
+  sorting();
 }
 
 // Run the sorting algorithm that is selected in the dropdown
-function runSort() {
+async function sorting() {
   let sortType = chosenAlg.innerText;
+  loadTxt.innerHTML = "<i>Sorting...</i>";
 
   if (sortType == "Insertion Sort") {
-    insertionSort(numList);
+    await insertionSort(numList);
   } else if (sortType == "Selection Sort") {
-    selectionSort(numList);
+    await selectionSort(numList);
   } else if (sortType == "Bubble Sort") {
-    bubbleSort(numList);
+    await bubbleSort(numList);
   } else if (sortType == "Merge Sort") {
-    mergeSort(numList);
-  } else if (sortType == "Heap Sort") {
-    
+    await mergeSort(numList);
+  } else if (sortType == "Max Heap Sort") {
+    await heapSort(numList);
   } else if (sortType == "Quicksort") {
-    
-  } else if (sortType == "LSD Base 10 Radix Sort") {
-    
-  } else if (sortType == "MSD Base 10 Radix Sort") {
-    
+    await quickSort(numList, 0, numList.length-1)
+  } else if (sortType == "Odd-Even Sort") {
+    await oddEvenSort(numList);
+  } else if (sortType == "Comb Sort") {
+    await combSort(numList);
+  } else if (sortType == "Cocktail Shaker Sort") {
+    await cocktailShakerSort(numList);
   } else if (sortType == "LSD Base 2 Radix Sort") {
-    
-  } else if (sortType == "MSD Base 2 Radix Sort") {
-    
+    await lsdSort(numList, 2);
+  } else if (sortType == "MSD Base 10 Radix Sort") {
+    await msdSort(numList);
   }
+
+  drawTriangles(-1);
+  loadTxt.innerHTML = "Sorted";
 }
 
 function clearAllIntervals() {
@@ -353,128 +380,63 @@ function playSound(i) {
 //~~~~ THE SORTING ALGORITHMS ~~~~//
 
 // https://medium.com/dailyjs/insertion-sort-in-javascript-9c077844717a
-function insertionSort(nums) {
-  let i = 0;
-  asyncIntervals.push(setInterval(function() {
-    let intervalNum = asyncIntervals.length;
-    if (i >= nums.length) {
-      drawTriangles(-1);
-      loadTxt.innerHTML = "Sorted";
-      clearInterval(asyncIntervals[intervalNum-1]);
-    } else {
-      loadTxt.innerHTML = "<i>Sorting...</i>";
-
-      let j = i - 1;
-      let tmp = nums[i];
-      while (j >= 0 && nums[j] > tmp) {
-        nums[j + 1] = nums[j];
-        j--;
-      }
-      nums[j+1] = tmp;
-    
-      i++;
-
-      drawTriangles(j);
+async function insertionSort(nums) {
+  for (let i = 1; i < nums.length; i++) {
+    let j = i - 1;
+    let tmp = nums[i];
+    while (j >= 0 && nums[j] > tmp) {
+      nums[j + 1] = nums[j];
+      j--;
     }
-  }, stepTime));
+    nums[j+1] = tmp;
+
+    await drawTriangles(j);
+  }
 }
 
 // https://medium.com/javascript-algorithms/javascript-algorithms-selection-sort-54da919d0513
-function selectionSort(arr) {
-  let i = 0;
-  asyncIntervals.push(setInterval(function() {
-    let intervalNum = asyncIntervals.length;
-    if (i >= arr.length) {
-      drawTriangles(-1);
-      loadTxt.innerHTML = "Sorted";
-      clearInterval(asyncIntervals[intervalNum-1]);
-    } else {
-      loadTxt.innerHTML = "<i>Sorting...</i>";
-    
-      let min = i;
-      for (let j = i + 1; j < arr.length; j++) {
-          if (arr[min] > arr[j]) {
-              min = j;
-          }
+async function selectionSort(arr) {
+  let len = arr.length;
+  for (let i = 0; i < len; i++) {
+    let min = i;
+    for (let j = i + 1; j < len; j++) {
+      if (arr[min] > arr[j]) {
+          min = j;
       }
-      if (min !== i) {
-          let tmp = arr[i];
-          arr[i] = arr[min];
-          arr[min] = tmp;
-      }
-
-      i++;
-
-      drawTriangles(min);
     }
-  }, stepTime));
+    if (min !== i) {
+      let tmp = arr[i];
+      arr[i] = arr[min];
+      arr[min] = tmp;
+    }
+    await drawTriangles(min);
+  }
 }
 
 // https://medium.com/javascript-algorithms/javascript-algorithms-bubble-sort-3d27f285c3b2
-function bubbleSort(inputArr) {
-  let i = 0;
+async function bubbleSort(inputArr) {
+  let tmp;
   let len = inputArr.length;
-  asyncIntervals.push(setInterval(function() {
-    let intervalNum = asyncIntervals.length;
-    if (i >= inputArr.length) {
-      drawTriangles(-1);
-      loadTxt.innerHTML = "Sorted";
-      clearInterval(asyncIntervals[intervalNum-1]);
-    } else {
-      loadTxt.innerHTML = "<i>Sorting...</i>";
-    
-      for (let j = 0; j < len; j++) {
-        if (inputArr[j] > inputArr[j + 1]) {
-            let tmp = inputArr[j];
-            inputArr[j] = inputArr[j + 1];
-            inputArr[j + 1] = tmp;
-        }
+  for (let i = 0; i < len; i++) {
+    for (let j = 0; j < len; j++) {
+      if (inputArr[j] > inputArr[j + 1]) {
+        tmp = inputArr[j];
+        inputArr[j] = inputArr[j + 1];
+        inputArr[j + 1] = tmp;
       }
-
-      i++;
-      drawTriangles(i);
     }
-  }, stepTime));
+    await drawTriangles(i);
+  }
 }
 
 // https://www.geeksforgeeks.org/iterative-merge-sort/
 // Iterative (non-recursive) Merge Sort
-function mergeSort(arr) {
+async function mergeSort(arr) {
   // The size of the merge sections
   // Varies from 1 - n/2
   //let currentSize;
   let n = arr.length-1;
-
   let currentSize = 1;
-  asyncIntervals.push(setInterval(function() {
-    let intervalNum = asyncIntervals.length;
-    if (currentSize > n) {
-      // Algorithm complete
-      drawTriangles(-1);
-      loadTxt.innerHTML = "Sorted";
-      clearInterval(asyncIntervals[intervalNum-1]);
-    } else {
-      loadTxt.innerHTML = "<i>Sorting...</i>";
-    
-      // Algorithm
-
-      // Pick starting point of different 
-      // subarrays of current size 
-      for (let left = 0; left < n; left += 2*currentSize) { 
-        // Find ending point of left  
-        // subarray. mid+1 is starting  
-        // point of right 
-        let mid = Math.min(left + currentSize - 1, n); 
-
-        let right = Math.min(left + 2*currentSize - 1, n); 
-
-        // Merge Subarrays arr[left...mid] & arr[mid+1...right] 
-        merge(arr, left, mid, right); 
-      }
-      drawTriangles(-1);
-      currentSize = 2*currentSize;
-    }
-  }, stepTime));
 
   // Merge subarrays in bottom up  
   // manner. First merge subarrays  
@@ -482,26 +444,28 @@ function mergeSort(arr) {
   // subarrays of size 2, then merge 
   // subarrays of size 2 to create  
   // sorted subarrays of size 4, and so on. 
-  /*for (currentSize = 1; currentSize <= n; currentSize = 2*currentSize) { 
-    // Pick starting point of different 
+  for (currentSize = 1; currentSize <= n; currentSize = 2*currentSize) { 
+    // Pick starting polet of different 
     // subarrays of current size 
     for (let left = 0; left < n; left += 2*currentSize) { 
-        // Find ending point of left  
-        // subarray. mid+1 is starting  
-        // point of right 
-        let mid = Math.min(left + currentSize - 1, n); 
+      // Find ending polet of left  
+      // subarray. mid+1 is starting  
+      // polet of right 
+      let mid = Math.min(left + currentSize - 1, n); 
 
-        let right = Math.min(left + 2*currentSize - 1, n); 
+      let right = Math.min(left + 2*currentSize - 1, n); 
 
-        // Merge Subarrays arr[left...mid] & arr[mid+1...right] 
-        merge(arr, left, mid, right); 
+      // Merge Subarrays arr[left...mid] & arr[mid+1...right] 
+      await merge(arr, left, mid, right); 
     }
-  } */
+  }
 }
 
 // Function to merge the two haves arr[l..m] and 
 // arr[m+1..r] of array arr[]
-function merge(arr, l, m, r) { 
+async function merge(arr, l, m, r) {
+  let updatePer = 5; // number of frames per update
+
   let i, j, k;
   let n1 = m - l + 1; 
   let n2 = r - m; 
@@ -518,7 +482,7 @@ function merge(arr, l, m, r) {
     R[j] = arr[m + 1+ j]; 
   }
       
-  // Merge the temp arrays back into arr[l..r]
+  // Merge the temp arrays back leto arr[l..r]
   i = 0; 
   j = 0; 
   k = l; 
@@ -529,42 +493,397 @@ function merge(arr, l, m, r) {
     } else { 
       arr[k] = R[j]; 
       j++; 
-    } 
+    }
     k++;
+    if (k % updatePer ==  0) {
+      await drawTriangles(k);
+    }
   } 
 
   // Copy the remaining elements of L, if there are any
   while (i < n1) { 
     arr[k] = L[i]; 
     i++; 
-    k++; 
+    k++;
+    if (k % updatePer ==  0) {
+      await drawTriangles(k);
+    }
   } 
 
   // Copy the remaining elements of R, if there are any
   while (j < n2) { 
     arr[k] = R[j]; 
     j++; 
-    k++; 
+    k++;
+    if (k % updatePer ==  0) {
+      await drawTriangles(k);
+    }
   } 
-} 
+}
 
-/* THE FRAME CODE FOR THE ASYNC ALGORITHMS
-let i = 0;
-asyncIntervals.push(setInterval(function() {
-  let intervalNum = asyncIntervals.length;
-  if (i >= inputArr.length) {
-    // Algorithm complete
-    drawTriangles(-1);
-    loadTxt.innerHTML = "Sorted";
-    clearInterval(asyncIntervals[intervalNum-1]);
-  } else {
-    loadTxt.innerHTML = "<i>Sorting...</i>";
-  
-    // Algorithm
 
-    i++;
-    drawTriangles(i);
+// https://www.w3resource.com/javascript-exercises/searching-and-sorting-algorithm/searching-and-sorting-algorithm-exercise-3.php
+// Max Heap Sort
+let heap_array_length;
+async function heapSort(input) {
+  heap_array_length = input.length;
+
+  for (var i = Math.floor(heap_array_length / 2); i >= 0; i -= 1) {
+    heap_root(input, i);
+    await drawTriangles(i);
   }
-}, stepTime));
-*/
 
+  for (i = input.length - 1; i > 0; i--) {
+    hSwap(input, 0, i);
+    heap_array_length--;
+
+    heap_root(input, 0);
+    await drawTriangles(i);
+  }
+}
+
+/* to create MAX  array */  
+function heap_root(input, i) {
+  var left = 2 * i + 1;
+  var right = 2 * i + 2;
+  var max = i;
+
+  if (left < heap_array_length && input[left] > input[max]) {
+    max = left;
+  }
+
+  if (right < heap_array_length && input[right] > input[max]) {
+    max = right;
+  }
+
+  if (max != i) {
+    hSwap(input, i, max);
+    heap_root(input, max);
+  }
+}
+
+async function hSwap(input, index_A, index_B) {
+  var temp = input[index_A];
+
+  input[index_A] = input[index_B];
+  input[index_B] = temp;
+}
+
+// https://medium.com/javascript-algorithms/javascript-algorithms-quicksort-beb3169c4d4
+// Quick Sort
+async function quickSort(arr, low, high) {
+  if (low < high) {
+    let pivot = await partition(arr, low, high);
+    await quickSort(arr, low, pivot - 1);
+    await quickSort(arr, pivot + 1, high);
+  }
+}
+
+function qsSwap(arr, i, j) {
+  let tmp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = tmp;
+}
+
+async function partition(arr, low, high) {
+  let q = low, i;
+  for (i = low; i < high; i++) {
+    if (arr[i] < arr[high]) {
+      qsSwap(arr, i, q);
+      q++;
+      if (i % 2 == 0) {
+        await drawTriangles(i, arr);
+      }
+    }
+  }
+  qsSwap(arr, i, q);
+  return q;
+}
+
+// Odd Even Sort
+// https://www.growingwiththeweb.com/2016/10/odd-even-sort.html
+async function oddEvenSort(array) {
+  var sorted = false;
+  while (!sorted) {
+    sorted = await innerSort(array, 1);
+    sorted = await innerSort(array, 0) && sorted;
+  }
+  numList = array.reverse();
+}
+
+/**
+ * Compares every second element of an array with its following element and
+ * swaps it if not in order using a compare function. */
+async function innerSort(array, i) {
+  var sorted = true;
+  for (; i < array.length - 1; i += 2) {
+    if (array[i] < array[i+1]) {
+      qsSwap(array, i, i + 1);
+      sorted = false;
+      if (i % 35 == 0) {
+        await drawTriangles(i, array.slice().reverse());
+      }
+    }
+  }
+  return sorted;
+}
+
+// Comb Sort
+// https://www.growingwiththeweb.com/2016/09/comb-sort.html
+async function combSort(array) {
+  let gap = array.length;
+  let shrinkFactor = 1.3;
+  let swapped;
+
+  while (gap > 1 || swapped) {
+    if (gap > 1) {
+      gap = Math.floor(gap / shrinkFactor);
+    }
+
+    swapped = false;
+
+    for (let i = 0; gap + i < array.length; ++i) {
+      if (array[i] > array[i+gap]) {
+        qsSwap(array, i, i + gap);
+        swapped = true;
+        await drawTriangles(i);
+      }
+    }
+  }
+  return array;
+}
+
+// Cocktail Shaker Sort
+// https://stackabuse.com/bubble-sort-and-cocktail-shaker-sort-in-javascript/
+async function cocktailShakerSort(a) {
+  let swapped = true; 
+  let start = 0; 
+  let end = a.length; 
+  let framesPer = 25;
+
+  while (swapped == true) { 
+    swapped = false; 
+
+    // loop from bottom to top same as 
+    // the bubble sort 
+    for (let i = start; i < end - 1; ++i) { 
+      if (a[i] > a[i + 1]) { 
+        let temp = a[i]; 
+        a[i] = a[i + 1]; 
+        a[i + 1] = temp; 
+        swapped = true;
+        if (i % framesPer == 0) {
+          await drawTriangles(i);
+        }  
+      } 
+    } 
+
+    // if nothing moved, then array is sorted. 
+    if (swapped == false) {
+      break;
+    }
+
+    // otherwise, reset the swapped flag so that it 
+    // can be used in the next stage 
+    swapped = false; 
+
+    // move the end point back by one, because 
+    // item at the end is in its rightful spot 
+    end = end - 1; 
+
+    // from top to bottom, doing the 
+    // same comparison as in the previous stage 
+    for (let i = end - 1; i >= start; i--) { 
+      if (a[i] > a[i + 1]) { 
+        let temp = a[i]; 
+        a[i] = a[i + 1]; 
+        a[i + 1] = temp; 
+        swapped = true; 
+        if (i % framesPer == 0) {
+          await drawTriangles(i);
+        }
+      } 
+    } 
+    start++; 
+  } 
+}
+
+// https://www.digitalocean.com/community/tutorials/js-radix-sort
+// Radix Sort MSD (Base 10)
+async function radixSort(arr) {
+  let maxLength = String(Math.max(arr)).length;
+
+  for (let i = 0; i < maxLength; i++) {
+    let buckets = Array.from({ length: 10 }, () => []);
+
+    for (let j = 0; j < arr.length; j++) {
+      let num = getNumRadix(arr[j], i);
+
+      if (num !== undefined) {
+        buckets[num].push(arr[j]);
+      }
+      let drawArray = buckets.flat().concat(arr.slice(j, arr.length));
+      await drawTriangles(j, drawArray);
+    }
+    arr = buckets.flat();
+  }
+
+  numList = arr;
+}
+
+// Get the digit at the current index in the num
+function getNumRadix(num, index) {
+  const strNum = String(num);
+  let end = strNum.length - 1;
+  //const foundNum = strNum[end - index];
+  const foundNum = strNum[index];
+
+  if (foundNum === undefined) {
+    return 0;
+  } else {
+    return foundNum;
+  } 
+}
+
+// LSD Radix Sort
+//https://www.growingwiththeweb.com/sorting/radix-sort-lsd/
+
+/**
+ * Sorts an array using radix sort.
+ * @param {Array} array The array to sort.
+ * @param {number} [radix=10] The base/radix to use.
+ * @returns The sorted array.
+ */
+async function lsdSort(array, radix) {
+  if (array.length === 0) {
+    return array;
+  }
+
+  radix = radix || 10;
+
+  // Determine minimum and maximum values
+  var minValue = array[0];
+  var maxValue = array[0];
+  for (var i = 1; i < array.length; i++) {
+    if (array[i] < minValue) {
+      minValue = array[i];
+    } else if (array[i] > maxValue) {
+      maxValue = array[i];
+    }
+  }
+
+  // Perform counting sort on each exponent/digit, starting at the least
+  // significant digit
+  var exponent = 1;
+  while ((maxValue - minValue) / exponent >= 1) {
+    array = await countingSortByDigit(array, radix, exponent, minValue);
+
+    exponent *= radix;
+  }
+
+  return array;
+}
+
+/**
+ * Stable sorts an array by a particular digit using counting sort.
+ * @param {Array} array The array to sort.
+ * @param {number} radix The base/radix to use to sort.
+ * @param {number} exponent The exponent of the significant digit to sort.
+ * @param {number} minValue The minimum value within the array.
+ * @returns The sorted array.
+ */
+async function countingSortByDigit(array, radix, exponent, minValue) {
+  var i;
+  var bucketIndex;
+  var buckets = new Array(radix);
+  var output = new Array(array.length);
+
+  // Initialize bucket
+  for (i = 0; i < radix; i++) {
+    buckets[i] = 0;
+  }
+
+  // Count frequencies
+  for (i = 0; i < array.length; i++) {
+    bucketIndex = Math.floor(((array[i] - minValue) / exponent) % radix);
+    buckets[bucketIndex]++;
+  }
+
+  // Compute cumulates
+  for (i = 1; i < radix; i++) {
+    buckets[i] += buckets[i - 1];
+  }
+
+  // Move records
+  for (i = array.length - 1; i >= 0; i--) {
+    bucketIndex = Math.floor(((array[i] - minValue) / exponent) % radix);
+    output[--buckets[bucketIndex]] = array[i];
+  }
+
+  // Copy back
+  for (i = 0; i < array.length; i++) {
+    array[i] = output[i];
+    if (i % 5 == 0) {
+      await drawTriangles(i, array);
+    }
+  }
+
+  return array;
+}
+
+// MSD Sort
+// https://jeremyckahn.github.io/javascript-algorithms/sorting_msd.js.html
+async function msdSort(arr) {
+  let d = 0;
+  // Convert to a string array with leading zeroes
+  let inArray = arr.map(String);
+  let digL = numOfPieces.toString().length;
+  for (let i = 0; i < inArray.length; i++) {
+    let addedZeroes = digL - inArray[i].length;
+    inArray[i] = "0".repeat(addedZeroes) + inArray[i];
+  }
+  await msdSortRun(inArray, 0, arr.length - 1, d);
+  numList = inArray.map(Number);
+}
+
+function charCodeAt(str, i) {
+  return (i < str.length) ? str.charCodeAt(i) : -1;
+}
+
+async function msdSortRun(arr, lo, hi, d) {
+  var temp = [];
+  var count = [];
+  var j;
+  var idx;
+
+  // Use Insertion sort when the
+  // array is smaller than given threshold
+  for (j = lo; j <= hi; j++) {
+    idx = charCodeAt(arr[j], d) + 2;
+    count[idx] = count[idx] || 0;
+    count[idx]++;
+  }
+
+  for (j = 0; j < count.length - 1; j++) {
+    count[j] = count[j] || 0;
+    count[j + 1] = count[j + 1] || 0;
+    count[j + 1] += count[j];
+  }
+
+  for (j = lo; j <= hi; j++) {
+    idx = charCodeAt(arr[j], d) + 1;
+    temp[count[idx]] = arr[j];
+    count[idx]++;
+  }
+
+  for (j = lo; j <= hi; j += 1) {
+    arr[j] = temp[j - lo];
+    if (j % 2 == 0) {
+      await drawTriangles(j, arr.map(Number));
+    }
+  }
+
+  for (j = 0; j < count.length - 2; j += 1) {
+    await msdSortRun(arr, lo + count[j], lo + count[j + 1] - 1, d + 1);
+  }
+}

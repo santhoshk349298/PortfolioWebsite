@@ -18,7 +18,7 @@
     <div id="centerDiv">
         <div id="mePic"></div>
         <p id="p1">
-        &emsp;Hi, my name is Christopher Venczel. I am a third year computer science student at the University of Ottawa.
+        &emsp;Hi, my name is Christopher Venczel. I am a recent graduate from the University of Ottawa in Computer Science with an interest in building web apps as well as data visualization and analysis.
         This website is a portfolio of some of the interactive Javascript projects I have created using the <a class="basicLink" target="_blank" href="https://p5js.org/">P5JS</a> library.
         </p>
         

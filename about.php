@@ -20,7 +20,6 @@
         <p id="p1">
         &emsp;Hi, I'm Christopher Venczel, a recent Computer Science graduate from the University of Ottawa. I'm passionate about web app development and enjoy exploring data visualization and analysis. This website is a portfolio of some of the interactive Javascript projects I have created using the <a class="basicLink" target="_blank" href="https://p5js.org/">P5JS</a> library.
         </p>
-        
         <p id="p2">
         &emsp;The projects feature a variety of different things that interest me including Music 🎵, Design 🎨, Math 📈, Physics 🚀, and AI 🧠.
         The code for the projects as well as for the website is open-source under the GNU General Public Licence and can be found on my Github 
